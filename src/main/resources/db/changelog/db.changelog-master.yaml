@@ -1,0 +1,69 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: devouver
+      changes:
+        - createTable:
+            tableName: barbershop
+            columns:
+              - column:
+                  name: id
+                  type: integer
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: barbershop_pk
+                    nullable: false
+              - column:
+                  name: address
+                  type: varchar(512)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: contact_phone
+                  type: varchar(20)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: contact_mail
+                  type: varchar(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: average_rating
+                  type: double
+                  constraints:
+                    nullable: false
+              - column:
+                  name: average_service_cost
+                  type: integer
+                  constraints:
+                    nullable: false
+        - createTable:
+            tableName: barbershop_schedule
+            columns:
+              - column:
+                  name: id
+                  type: integer
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: barbershop_schedule_pk
+                    nullable: false
+              - column:
+                  name: day_of_week
+                  type: varchar(11)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: work_hours
+                  type: varchar(20)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: barbershop_id
+                  type: integer
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_barbershop
+                    references: barbershop(id)
