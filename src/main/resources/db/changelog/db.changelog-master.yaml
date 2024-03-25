@@ -67,3 +67,11 @@ databaseChangeLog:
                     nullable: false
                     foreignKeyName: fk_barbershop
                     references: barbershop(id)
+  - changeSet:
+      id: 2
+      author: devouver
+      changes:
+        - renameColumn:
+            tableName: barbershop
+            oldColumnName: contact_mail
+            newColumnName: contact_email
