@@ -15,9 +15,9 @@ public class BarbershopController {
     public final BarbershopServiceImpl barbershopServiceImpl;
 
     @PostMapping(value = "/create", consumes="application/json")
-    public String newBarbershop(@RequestBody BarbershopDto barbershopDto) {
+    public ResponseEntity<?> newBarbershop(@RequestBody BarbershopDto barbershopDto) {
         barbershopServiceImpl.createBarbershop(barbershopDto);
-        return "ОК";
+        return ResponseEntity.status(HttpStatus.CREATED).body("Barbershop created successfully!");
     }
 
     @GetMapping(value = "/viewInfo/{id}", produces="application/json")

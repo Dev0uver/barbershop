@@ -39,6 +39,7 @@ public class BarbershopServiceImpl implements BarbeshopService {
     }
 
     @Transactional
+    @Override
     public boolean updateBarbershop(Long id, BarbershopDto barbershopDto) {
         Optional<BarbershopEntity> optionalBarbershopEntity = barbershopRepository.findById(id);
         if (optionalBarbershopEntity.isPresent()) {
@@ -58,6 +59,7 @@ public class BarbershopServiceImpl implements BarbeshopService {
     }
 
     @Transactional
+    @Override
     public boolean deleteBarbershop(Long id) {
         Optional<BarbershopEntity> optionalBarbershopEntity = barbershopRepository.findById(id);
         if (optionalBarbershopEntity.isPresent()) {
