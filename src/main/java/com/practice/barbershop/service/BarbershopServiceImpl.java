@@ -13,7 +13,7 @@ import java.util.*;
 
 @Service
 @AllArgsConstructor
-public class BarbershopServiceImpl implements BarbeshopService {
+public class BarbershopServiceImpl implements BarbershopService {
 
     private final BarbershopRepository barbershopRepository;
     private ModelMapper modelMapper;
@@ -21,7 +21,7 @@ public class BarbershopServiceImpl implements BarbeshopService {
     @Override
     @Transactional
     public void createBarbershop(BarbershopDto barbershopDto) {
-        BarbershopEntity barbershopEntity = BarbershopMapper.toDto(barbershopDto);
+        BarbershopEntity barbershopEntity = BarbershopMapper.toEntity(barbershopDto);
         barbershopRepository.save(barbershopEntity);
     }
 

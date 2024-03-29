@@ -2,7 +2,7 @@ package com.practice.barbershop.service;
 
 import com.practice.barbershop.dto.BarbershopDto;
 
-public interface BarbeshopService {
+public interface BarbershopService {
 
     public void createBarbershop(BarbershopDto barbershopDto);
 

@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class BarbershopMapper {
 
-    public static BarbershopEntity toDto(BarbershopDto barbershopDto) {
+    public static BarbershopEntity toEntity(BarbershopDto barbershopDto) {
         BarbershopEntity barbershopEntity = new BarbershopEntity();
         barbershopEntity.setId(barbershopDto.getId());
         barbershopEntity.setAddress(barbershopDto.getAddress());
