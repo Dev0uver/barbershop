@@ -1,77 +1,21 @@
 databaseChangeLog:
-  - changeSet:
-      id: 1
-      author: devouver
-      changes:
-        - createTable:
-            tableName: barbershop
-            columns:
-              - column:
-                  name: id
-                  type: integer
-                  autoIncrement: true
-                  constraints:
-                    primaryKey: true
-                    primaryKeyName: barbershop_pk
-                    nullable: false
-              - column:
-                  name: address
-                  type: varchar(512)
-                  constraints:
-                    nullable: false
-              - column:
-                  name: contact_phone
-                  type: varchar(20)
-                  constraints:
-                    nullable: false
-              - column:
-                  name: contact_mail
-                  type: varchar(100)
-                  constraints:
-                    nullable: false
-              - column:
-                  name: average_rating
-                  type: double
-                  constraints:
-                    nullable: false
-              - column:
-                  name: average_service_cost
-                  type: integer
-                  constraints:
-                    nullable: false
-        - createTable:
-            tableName: barbershop_schedule
-            columns:
-              - column:
-                  name: id
-                  type: integer
-                  autoIncrement: true
-                  constraints:
-                    primaryKey: true
-                    primaryKeyName: barbershop_schedule_pk
-                    nullable: false
-              - column:
-                  name: day_of_week
-                  type: varchar(11)
-                  constraints:
-                    nullable: false
-              - column:
-                  name: work_hours
-                  type: varchar(20)
-                  constraints:
-                    nullable: false
-              - column:
-                  name: barbershop_id
-                  type: integer
-                  constraints:
-                    nullable: false
-                    foreignKeyName: fk_barbershop
-                    references: barbershop(id)
-  - changeSet:
-      id: 2
-      author: devouver
-      changes:
-        - renameColumn:
-            tableName: barbershop
-            oldColumnName: contact_mail
-            newColumnName: contact_email
+  - include:
+      file: db/changelog/changeset/create-barbershop-table.yaml
+  - include:
+      file: db/changelog/changeset/create-schedule-table.yaml
+  - include:
+      file: db/changelog/changeset/rename-column-barbershop.yaml
+  - include:
+      file: db/changelog/changeset/create-client-table.yaml
+  - include:
+      file: db/changelog/changeset/create-barber-table.yaml
+  - include:
+      file: db/changelog/changeset/create-orders-table.yaml
+  - include:
+      file: db/changelog/changeset/create-registrations-table.yaml
+  - include:
+      file: db/changelog/changeset/create-amenities-table.yaml
+  - include:
+      file: db/changelog/changeset/create-ordered-amenities-table.yaml
+  - include:
+      file: db/changelog/changeset/add-column-registration-table.yaml

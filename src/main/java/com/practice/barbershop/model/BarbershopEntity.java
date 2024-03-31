@@ -3,7 +3,6 @@ package com.practice.barbershop.model;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 @Entity
