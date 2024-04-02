@@ -3,7 +3,7 @@ package com.practice.barbershop.dto;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.Map;
+import java.util.List;
 
 @Data
 public class BarbershopDto implements Serializable {
@@ -15,5 +15,5 @@ public class BarbershopDto implements Serializable {
     private Double averageRating;
     private Integer averageServiceCost;
 
-    private Map<String, String> schedule;
+    private List<ScheduleDto> schedule;
 }

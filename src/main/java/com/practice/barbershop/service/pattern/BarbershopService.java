@@ -1,6 +1,9 @@
 package com.practice.barbershop.service.pattern;
 
 import com.practice.barbershop.dto.BarbershopDto;
+import com.practice.barbershop.model.BarbershopEntity;
+
+import java.util.List;
 
 public interface BarbershopService {
 
@@ -11,4 +14,8 @@ public interface BarbershopService {
     boolean updateBarbershop(Long id, BarbershopDto barbershopDto);
 
     boolean deleteBarbershop(Long id);
+
+    void updateSchedule();
+
+    List<BarbershopEntity> getAllBarberShops();
 }

@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - changeSet:
+      id: add-column-barbershop_schedule-date
+      author: Devouver
+      changes:
+        - addColumn:
+            tableName: barbershop_schedule
+            columns:
+             - column:
+                name: date
+                type: date
+                constraints:
+                  nullable: true

@@ -8,22 +8,49 @@ Content-Type: application/json
   "contactEmail": "SobakaPes@mail.com",
   "averageRating": 4.5,
   "averageServiceCost": 50,
-  "schedule": {
-    "Monday": "09:00 - 18:00",
-    "Tuesday": "09:00 - 18:00",
-    "Wednesday": "09:00 - 18:00",
-    "Thursday": "09:00 - 18:00",
-    "Friday": "09:00 - 18:00",
-    "Saturday": "10:00 - 16:00",
-    "Sunday": "Closed"
-  }
+  "schedule": [
+    {
+      "dayOfWeek":"MONDAY",
+      "workHours": "09:00 - 18:00",
+      "date": "2024-01-01"
+    },
+    {
+      "dayOfWeek":"TUESDAY",
+      "workHours": "09:00 - 18:00",
+      "date": "2024-01-02"
+    },
+    {
+      "dayOfWeek":"WEDNESDAY",
+      "workHours": "09:00 - 18:00",
+      "date": "2024-01-03"
+    },
+    {
+      "dayOfWeek":"THURSDAY",
+      "workHours": "09:00 - 18:00",
+      "date": "2024-01-04"
+    },{
+      "dayOfWeek":"FRIDAY",
+      "workHours": "09:00 - 16:00",
+      "date": "2024-01-05"
+    },
+    {
+      "dayOfWeek":"SATURDAY",
+      "workHours": "09:00 - 18:00",
+      "date": "2024-01-06"
+    },
+    {
+      "dayOfWeek":"SUNDAY",
+      "workHours": "Closed",
+      "date": "2024-01-07"
+    }
+  ]
 }
 
 ###
-GET http://localhost:8080/barbershop/viewInfo/2
+GET http://localhost:8080/barbershop/viewInfo/8
 
 ###
-PUT http://localhost:8080/barbershop/update/2
+PUT http://localhost:8080/barbershop/update/8
 Content-Type: application/json
 
 {
@@ -32,16 +59,43 @@ Content-Type: application/json
   "contactEmail": "SobakaPes@mail.com",
   "averageRating": 4.5,
   "averageServiceCost": 50,
-  "schedule": {
-    "Monday": "09:00 - 18:00",
-    "Tuesday": "09:00 - 18:00",
-    "Wednesday": "09:00 - 18:00",
-    "Thursday": "09:00 - 18:00",
-    "Friday": "09:00 - 18:00",
-    "Saturday": "10:00 - 16:00",
-    "Sunday": "Closed"
-  }
+  "schedule": [
+    {
+      "dayOfWeek":"MONDAY",
+      "workHours": "09:00 - 18:00",
+      "date": "2024-01-01"
+    },
+    {
+      "dayOfWeek":"TUESDAY",
+      "workHours": "09:00 - 18:00",
+      "date": "2024-01-02"
+    },
+    {
+      "dayOfWeek":"WEDNESDAY",
+      "workHours": "09:00 - 18:00",
+      "date": "2024-01-03"
+    },
+    {
+      "dayOfWeek":"THURSDAY",
+      "workHours": "09:00 - 18:00",
+      "date": "2024-01-04"
+    },{
+      "dayOfWeek":"FRIDAY",
+      "workHours": "09:00 - 16:00",
+      "date": "2024-01-05"
+    },
+    {
+      "dayOfWeek":"SATURDAY",
+      "workHours": "09:00 - 18:00",
+      "date": "2024-01-06"
+    },
+    {
+      "dayOfWeek":"SUNDAY",
+      "workHours": "Closed",
+      "date": "2024-01-07"
+    }
+  ]
 }
 
 ###
-DELETE http://localhost:8080/barbershop/delete/1
+DELETE http://localhost:8080/barbershop/delete/7

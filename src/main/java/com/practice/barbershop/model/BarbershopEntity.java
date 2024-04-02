@@ -3,7 +3,7 @@ package com.practice.barbershop.model;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.util.Map;
+import java.util.List;
 
 @Entity
 @Table(name = "barbershop")
@@ -19,10 +19,8 @@ public class BarbershopEntity {
     private Double averageRating;
     private Integer averageServiceCost;
 
-    @ElementCollection
-    @CollectionTable(name = "barbershop_schedule", joinColumns = @JoinColumn(name = "barbershop_id"))
-    @MapKeyColumn(name = "day_of_week")
-    @Column(name = "work_hours")
-    private Map<String, String> schedule;
+    @OneToMany(mappedBy = "barbershopEntity",
+    fetch = FetchType.EAGER)
+    private List<Schedule> schedule;
 
 }

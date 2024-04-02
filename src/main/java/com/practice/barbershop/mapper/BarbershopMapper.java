@@ -3,9 +3,7 @@ package com.practice.barbershop.mapper;
 import com.practice.barbershop.dto.BarbershopDto;
 import com.practice.barbershop.model.BarbershopEntity;
 
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.stream.Collectors;
 
 public class BarbershopMapper {
 
@@ -17,16 +15,23 @@ public class BarbershopMapper {
         barbershopEntity.setContactEmail(barbershopDto.getContactEmail());
         barbershopEntity.setAverageRating(barbershopDto.getAverageRating());
         barbershopEntity.setAverageServiceCost(barbershopDto.getAverageServiceCost());
-        barbershopEntity.setSchedule(barbershopDto.getSchedule());
+        barbershopEntity.setSchedule(barbershopDto.getSchedule().stream()
+                .map(ScheduleMapper::toEntity)
+                .collect(Collectors.toList()));
         return barbershopEntity;
     }
 
-    public static Map<String, String> orderSchedule(Map<String, String> schedule) {
-        List<String> week = List.of("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday");
-        Map<String, String> sorted = new LinkedHashMap<>();
-        for (String day: week) {
-            sorted.put(day, schedule.get(day));
-        }
-        return sorted;
+    public static BarbershopDto toDto(BarbershopEntity barbershopEntity) {
+        BarbershopDto barbershopDto = new BarbershopDto();
+        barbershopDto.setId(barbershopEntity.getId());
+        barbershopDto.setAddress(barbershopEntity.getAddress());
+        barbershopDto.setContactPhone(barbershopEntity.getContactPhone());
+        barbershopDto.setContactEmail(barbershopEntity.getContactEmail());
+        barbershopDto.setAverageRating(barbershopEntity.getAverageRating());
+        barbershopDto.setAverageServiceCost(barbershopEntity.getAverageServiceCost());
+        barbershopDto.setSchedule(barbershopEntity.getSchedule().stream()
+                .map(ScheduleMapper::toDto)
+                .collect(Collectors.toList()));
+        return barbershopDto;
     }
 }

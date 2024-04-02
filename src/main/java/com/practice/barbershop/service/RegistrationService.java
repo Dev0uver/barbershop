@@ -3,7 +3,6 @@ package com.practice.barbershop.service;
 import com.practice.barbershop.dto.RegistrationsDto;
 import com.practice.barbershop.general.MyService;
 import com.practice.barbershop.mapper.RegistrationsMapper;
-import com.practice.barbershop.model.Barber;
 import com.practice.barbershop.model.Client;
 import com.practice.barbershop.model.Registration;
 import com.practice.barbershop.repository.RegistrationRepository;
