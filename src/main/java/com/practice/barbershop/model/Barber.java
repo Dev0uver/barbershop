@@ -10,14 +10,8 @@ import java.util.List;
 @Data
 public class Barber {
     @Id
-    @SequenceGenerator(
-            name = "barber_sequence",
-            sequenceName = "barber_sequence",
-            allocationSize = 1
-    )
     @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "barber_sequence"
+            strategy = GenerationType.IDENTITY
     )
     private Long id;
     private String phone;
