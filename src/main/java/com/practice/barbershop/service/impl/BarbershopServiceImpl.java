@@ -4,7 +4,7 @@ import com.practice.barbershop.dto.BarbershopDto;
 import com.practice.barbershop.mapper.BarbershopMapper;
 import com.practice.barbershop.model.BarbershopEntity;
 import com.practice.barbershop.repository.BarbershopRepository;
-import com.practice.barbershop.service.patern.BarbershopService;
+import com.practice.barbershop.service.pattern.BarbershopService;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;

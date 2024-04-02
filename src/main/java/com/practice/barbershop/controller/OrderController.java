@@ -19,7 +19,7 @@ public class OrderController {
     private final OrderService orderService;
     private final RegistrationService registrationService;
     private final BarberService barberService;
-    @RequestMapping(value = "/create/reg", method = RequestMethod.GET)
+    @RequestMapping(value = "/create/reg", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<?> createOrderForRegistration(@RequestParam(name = "regId") Long regId) {
 
@@ -35,7 +35,7 @@ public class OrderController {
         }
     }
 
-    @RequestMapping(value = "/mark", method = RequestMethod.GET)
+    @RequestMapping(value = "/mark", method = RequestMethod.PUT)
     @ResponseBody
     public ResponseEntity<?> markOrder(@RequestParam(name = "orderId") Long orderId,
                                        @RequestParam(name = "mark") Byte mark) {

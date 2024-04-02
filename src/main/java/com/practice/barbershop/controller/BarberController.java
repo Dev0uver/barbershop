@@ -25,13 +25,13 @@ public class BarberController {
      */
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<BarberDto> createBarber(@RequestBody BarberDto barber) {
+    public ResponseEntity<?> createBarber(@RequestBody BarberDto barber) {
         try {
             BarberDto savedBarber = barberService.save(barber);
-            return new ResponseEntity<>(savedBarber, HttpStatus.OK);
+            return ResponseEntity.status(HttpStatus.OK).body(savedBarber);
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
 
