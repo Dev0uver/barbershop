@@ -3,7 +3,7 @@ POST http://localhost:8080/amenity/add
 Content-Type: application/json
 
 {
-  "price": 1111,
+  "price": 100,
   "name": "Cut hair+"
 }
 

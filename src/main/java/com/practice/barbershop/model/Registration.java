@@ -12,14 +12,8 @@ import java.time.LocalTime;
 @Data
 public class Registration {
     @Id
-    @SequenceGenerator(
-            name = "registration_sequence",
-            sequenceName = "registration_sequence",
-            allocationSize = 1
-    )
     @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "registration_sequence"
+            strategy = GenerationType.IDENTITY
     )
     private Long id;
     private LocalTime time;

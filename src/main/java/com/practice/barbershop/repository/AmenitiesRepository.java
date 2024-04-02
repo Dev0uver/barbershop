@@ -16,4 +16,6 @@ public interface AmenitiesRepository extends JpaRepository<Amenities, Long> {
      * @return Optional<Amenities> entity
      */
     Optional<Amenities> getAmenitiesById(Long id);
+
+    Optional<Amenities> getAmenitiesByName(String name);
 }

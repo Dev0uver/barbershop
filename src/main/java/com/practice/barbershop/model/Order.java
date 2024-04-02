@@ -13,14 +13,8 @@ import java.util.List;
 //create when client came to barbershop
 public class Order {
     @Id
-    @SequenceGenerator(
-            name = "order_sequence",
-            sequenceName = "order_sequence",
-            allocationSize = 1
-    )
     @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "order_sequence"
+            strategy = GenerationType.IDENTITY
     )
     private Long id;
     //Get after client's cut hair is over

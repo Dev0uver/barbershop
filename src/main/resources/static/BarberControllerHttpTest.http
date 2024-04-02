@@ -3,11 +3,11 @@ POST http://localhost:8080/barber/create
 Content-Type: application/json
 
 {
-  "phone": "barberPhoneNew",
-  "email": "barberEmailNew",
+  "phone": "barberPhone1",
+  "email": "barberEmail1",
   "barberStatus": "WORK"
 }
 
 ### Change barber status via id and status
-PUT http://localhost:8080/barber/change?status=work&id=2
+PUT http://localhost:8080/barber/change?status=vacation&id=1
 Content-Type: application/x-www-form-urlencoded

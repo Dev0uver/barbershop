@@ -19,7 +19,7 @@ public interface BarberRepository extends JpaRepository<Barber, Long> {
     Optional<Barber> getBarberById(Long id);
 
     //TODO Разобраться почему FETCH не работает
-//    @Query("SELECT b FROM Barber b JOIN FETCH b.orders WHERE b.id = ?1")
+//    @Query("SELECT b FROM Barber b JOIN FETCH b.orderList WHERE b.id = ?1")
 //    Optional<Barber> getBarberByIdAllCollections(Long id);
 
 }

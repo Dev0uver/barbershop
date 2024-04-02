@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,6 +32,11 @@ public class AmenitiesService implements MyService<AmenitiesDto, Amenities> {
     @Override
     public AmenitiesDto save(AmenitiesDto dto) {
         dto.setId(null);
+        Optional<Amenities> amenity = amenitiesRepository.getAmenitiesByName(dto.getName().toLowerCase());
+        if (amenity.isPresent()) {
+            throw new RuntimeException("Amenity with name=" + dto.getName() + " already exists");
+        }
+        dto.setName(dto.getName().toLowerCase());
         Amenities savedAmenity = amenitiesRepository.save(AmenitiesMapper.toEntity(dto));
         return AmenitiesMapper.toDto(savedAmenity);
     }
