@@ -27,7 +27,7 @@ public class BarbershopController {
             return ResponseEntity.status(HttpStatus.OK).body(barbershopDto);
         }
         else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("NOT FOUND");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Barbershop not found");
         }
     }
 

@@ -1,0 +1,47 @@
+###
+POST http://localhost:8080/barbershop/create
+Content-Type: application/json
+
+{
+  "address": "123 Main Street",
+  "contactPhone": "89001001010",
+  "contactEmail": "SobakaPes@mail.com",
+  "averageRating": 4.5,
+  "averageServiceCost": 50,
+  "schedule": {
+    "Monday": "09:00 - 18:00",
+    "Tuesday": "09:00 - 18:00",
+    "Wednesday": "09:00 - 18:00",
+    "Thursday": "09:00 - 18:00",
+    "Friday": "09:00 - 18:00",
+    "Saturday": "10:00 - 16:00",
+    "Sunday": "Closed"
+  }
+}
+
+###
+GET http://localhost:8080/barbershop/viewInfo/2
+
+###
+PUT http://localhost:8080/barbershop/update/2
+Content-Type: application/json
+
+{
+  "address": "1234 Main Street",
+  "contactPhone": "89001001010",
+  "contactEmail": "SobakaPes@mail.com",
+  "averageRating": 4.5,
+  "averageServiceCost": 50,
+  "schedule": {
+    "Monday": "09:00 - 18:00",
+    "Tuesday": "09:00 - 18:00",
+    "Wednesday": "09:00 - 18:00",
+    "Thursday": "09:00 - 18:00",
+    "Friday": "09:00 - 18:00",
+    "Saturday": "10:00 - 16:00",
+    "Sunday": "Closed"
+  }
+}
+
+###
+DELETE http://localhost:8080/barbershop/delete/1
