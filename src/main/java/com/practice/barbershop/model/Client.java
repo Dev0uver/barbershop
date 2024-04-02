@@ -9,9 +9,7 @@ import java.util.List;
 @Data
 public class Client {
     @Id
-    @GeneratedValue(
-            strategy = GenerationType.IDENTITY
-    )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String login;
     private String name;

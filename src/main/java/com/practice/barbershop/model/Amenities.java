@@ -15,6 +15,6 @@ public class Amenities {
     private Long id;
     private Integer price;
     private String name;
-    @ManyToMany
+    @ManyToMany(mappedBy = "amenitiesList")
     private List<Order> orderList;
 }

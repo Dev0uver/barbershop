@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - changeSet:
+      id: add-column-registrations-registration_time
+      author: Devouver
+      changes:
+        - addColumn:
+            tableName: registrations
+            columns:
+              - column:
+                  name: registration_time
+                  type: Timestamp

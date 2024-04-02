@@ -16,8 +16,8 @@ public class BarbershopEntity {
     private String address;
     private String contactPhone;
     private String contactEmail;
-    private double averageRating;
-    private int averageServiceCost;
+    private Double averageRating;
+    private Integer averageServiceCost;
 
     @ElementCollection
     @CollectionTable(name = "barbershop_schedule", joinColumns = @JoinColumn(name = "barbershop_id"))

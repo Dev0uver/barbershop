@@ -13,9 +13,7 @@ import java.util.List;
 //create when client came to barbershop
 public class Order {
     @Id
-    @GeneratedValue(
-            strategy = GenerationType.IDENTITY
-    )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     //Get after client's cut hair is over
     private Integer price;

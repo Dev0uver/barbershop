@@ -12,8 +12,8 @@ public class BarbershopDto implements Serializable {
     private String address;
     private String contactPhone;
     private String contactEmail;
-    private double averageRating;
-    private int averageServiceCost;
+    private Double averageRating;
+    private Integer averageServiceCost;
 
     private Map<String, String> schedule;
 }

@@ -1,7 +1,7 @@
 package com.practice.barbershop.controller;
 
 import com.practice.barbershop.dto.BarbershopDto;
-import com.practice.barbershop.service.BarbershopServiceImpl;
+import com.practice.barbershop.service.impl.BarbershopServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -19,3 +19,5 @@ databaseChangeLog:
       file: db/changelog/changeset/create-ordered-amenities-table.yaml
   - include:
       file: db/changelog/changeset/add-column-registration-table.yaml
+  - include:
+      file: db/changelog/changeset/add-column-registrations-registration_time.yaml

@@ -12,9 +12,7 @@ import java.time.LocalTime;
 @Data
 public class Registration {
     @Id
-    @GeneratedValue(
-            strategy = GenerationType.IDENTITY
-    )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private LocalTime time;
     private LocalDate day;

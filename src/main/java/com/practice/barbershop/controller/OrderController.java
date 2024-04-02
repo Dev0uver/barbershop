@@ -65,7 +65,7 @@ public class OrderController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
-    @RequestMapping(value = "/add-amenity", method = RequestMethod.GET)
+    @RequestMapping(value = "/add-amenity", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<?> addAmenities(@RequestParam(name = "amenityId") Long amenityId,
                                           @RequestParam(name = "orderId") Long orderId) {

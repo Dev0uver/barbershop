@@ -120,20 +120,24 @@ public class RegistrationService implements MyService<RegistrationsDto, Registra
      * @param barberId The barber
      * @return RegistrationDto obj link to the client and barber
      */
-    public RegistrationsDto setClient(LocalTime time, LocalDate date, Long clientId, Long barberId) {
-        Client client = clientService.getEntityById(clientId);
-        Barber barber = barberService.getEntityById(barberId);
-        Registration registration = new Registration();
+    public RegistrationsDto setClient(RegistrationsDto registrationsDto) {
+        Client client = clientService.getEntityById(registrationsDto.getClient_id());
+        Barber barber = barberService.getEntityById(registrationsDto.getBarber_id());
 
-        registration.setClient(client);
-        registration.setBarber(barber);
-        registration.setRegistrationTime(LocalDateTime.now());
-        registration.setPhone(client.getPhone());
-        registration.setClientName(client.getName());
-        registration.setCanceled(Boolean.FALSE);
-        registration.setDay(date);
-        registration.setTime(time);
+        registrationsDto.setRegistrationTime(LocalDateTime.now());
+        registrationsDto.setPhone(client.getPhone());
+        registrationsDto.setClientName(client.getName());
+        registrationsDto.setCanceled(Boolean.FALSE);
 
-        return RegistrationsMapper.toDto(registration);
+//        registration.setClient(client);
+//        registration.setBarber(barber);
+//        registration.setRegistrationTime();
+//        registration.setPhone(client.getPhone());
+//        registration.setClientName(client.getName());
+//        registration.setCanceled(Boolean.FALSE);
+//        registration.setDay(date);
+//        registration.setTime(time);
+
+        return registrationsDto;
     }
 }
