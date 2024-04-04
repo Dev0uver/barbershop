@@ -6,7 +6,9 @@ import lombok.Data;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-
+/** ORM-model of Registration
+ * @author David
+ */
 @Entity
 @Table(name = "registrations")
 @Data

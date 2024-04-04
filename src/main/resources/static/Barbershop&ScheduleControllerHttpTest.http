@@ -47,10 +47,10 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:8080/barbershop/viewInfo/8
+GET http://localhost:8080/barbershop/viewInfo/2
 
 ###
-PUT http://localhost:8080/barbershop/update/8
+PUT http://localhost:8080/barbershop/update/2
 Content-Type: application/json
 
 {
@@ -98,4 +98,4 @@ Content-Type: application/json
 }
 
 ###
-DELETE http://localhost:8080/barbershop/delete/7
+DELETE http://localhost:8080/barbershop/delete/3

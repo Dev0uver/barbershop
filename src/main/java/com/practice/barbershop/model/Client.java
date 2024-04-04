@@ -4,7 +4,9 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.List;
-
+/** ORM-model of Client
+ * @author David
+ */
 @Entity
 @Data
 public class Client {

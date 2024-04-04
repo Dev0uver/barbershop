@@ -5,7 +5,9 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDate;
-
+/** ORM-model of Schedule
+ * @author David
+ */
 @Entity
 @Table(name = "barbershop_schedule")
 @Data
@@ -21,5 +23,5 @@ public class Schedule {
 
     @ManyToOne
     @JoinColumn(name = "barbershop_id")
-    private BarbershopEntity barbershopEntity;
+    private Barbershop barbershop;
 }

@@ -1,9 +1,7 @@
 package com.practice.barbershop.controller;
 
-import com.practice.barbershop.dto.BarberDto;
 import com.practice.barbershop.dto.OrderDto;
 import com.practice.barbershop.dto.RegistrationsDto;
-import com.practice.barbershop.service.BarberService;
 import com.practice.barbershop.service.OrderService;
 import com.practice.barbershop.service.RegistrationService;
 import lombok.AllArgsConstructor;
@@ -11,14 +9,24 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-
+/** Responds to requests for order
+ * @author David
+ */
 @RestController
 @AllArgsConstructor
 @RequestMapping("/order")
 public class OrderController {
     private final OrderService orderService;
     private final RegistrationService registrationService;
-    private final BarberService barberService;
+
+    /**
+     * RequestMethod=POST. Accepts the registration ID.
+     * Checks whether this registration exists in the database and its active.
+     * Extract data from registration into an order
+     * Saves a new order
+     * @param regId The registration's ID
+     * @return ResponseEntity
+     */
     @RequestMapping(value = "/create/reg", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<?> createOrderForRegistration(@RequestParam(name = "regId") Long regId) {
@@ -35,6 +43,14 @@ public class OrderController {
         }
     }
 
+    /**
+     * RequestMethod=PUT. Accepts the mark of the order as a parameter.
+     * Checks whether this order already exists in the database.
+     * Update the order
+     * @param orderId The order's ID
+     * @param mark The order's mark
+     * @return ResponseEntity
+     */
     @RequestMapping(value = "/mark", method = RequestMethod.PUT)
     @ResponseBody
     public ResponseEntity<?> markOrder(@RequestParam(name = "orderId") Long orderId,
@@ -52,19 +68,13 @@ public class OrderController {
         }
     }
 
-    @RequestMapping(value = "/average-rating", method = RequestMethod.GET)
-    @ResponseBody
-    public ResponseEntity<?> averageRating(@RequestParam(name = "barberId") Long barberId) {
-        try {
-            BarberDto barberDto = barberService.getDtoById(barberId);
-
-            Double averageMark = orderService.avgRate(barberDto);
-
-            return ResponseEntity.status(HttpStatus.OK).body("Avg. rating=" + averageMark + " for barber with id=" + barberDto.getId());
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
-    }
+    /**
+     * RequestMethod=POST. Checks whether this amenity and order exist in the database.
+     * Create link between these entity.
+     * @param amenityId The amenity's ID
+     * @param orderId The order's ID
+     * @return ResponseEntity
+     */
     @RequestMapping(value = "/add-amenity", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<?> addAmenities(@RequestParam(name = "amenityId") Long amenityId,

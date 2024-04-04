@@ -1,0 +1,17 @@
+databaseChangeLog:
+  - changeSet:
+      id: alter-table-barbershop_schedule
+      author: admin
+      changes:
+        - modifyDataType:
+            tableName: barbershop_schedule
+            columnName: barbershop_id
+            newDataType: bigint
+        - modifyDataType:
+            tableName: barbershop_schedule
+            columnName: id
+            newDataType: bigint
+        - modifyDataType:
+            tableName: barbershop
+            columnName: id
+            newDataType: bigint

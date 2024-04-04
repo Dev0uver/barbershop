@@ -4,10 +4,16 @@ import com.practice.barbershop.dto.RegistrationsDto;
 import com.practice.barbershop.model.Barber;
 import com.practice.barbershop.model.Client;
 import com.practice.barbershop.model.Registration;
-import org.springframework.stereotype.Service;
 
-@Service
+/** Convert RegistrationsDto to Registration and Registration to RegistrationsDto
+ * @author David
+ */
 public class RegistrationsMapper {
+    /**
+     * Convert Registration to RegistrationsDto
+     * @param entity Registration
+     * @return RegistrationsDto
+     */
     public static RegistrationsDto toDto(Registration entity) {
         RegistrationsDto registrations = new RegistrationsDto();
 
@@ -23,7 +29,11 @@ public class RegistrationsMapper {
 
         return registrations;
     }
-
+    /**
+     * Convert RegistrationsDto to Registration
+     * @param dto RegistrationsDto
+     * @return Registration
+     */
     public static Registration toEntity(RegistrationsDto dto) {
         Registration registration = new Registration();
 

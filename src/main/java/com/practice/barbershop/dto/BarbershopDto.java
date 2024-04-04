@@ -5,6 +5,10 @@ import lombok.Data;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * BarbershopDto dto for Barbershop entity
+ * @author David
+ */
 @Data
 public class BarbershopDto implements Serializable {
 

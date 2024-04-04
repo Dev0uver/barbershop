@@ -3,7 +3,7 @@ package com.practice.barbershop.service.impl;
 import com.practice.barbershop.dto.BarbershopDto;
 import com.practice.barbershop.mapper.BarbershopMapper;
 import com.practice.barbershop.mapper.ScheduleMapper;
-import com.practice.barbershop.model.BarbershopEntity;
+import com.practice.barbershop.model.Barbershop;
 import com.practice.barbershop.model.Schedule;
 import com.practice.barbershop.repository.BarbershopRepository;
 import com.practice.barbershop.repository.ScheduleRepository;
@@ -29,45 +29,42 @@ public class BarbershopServiceImpl implements BarbershopService {
     @Override
     @Transactional
     public void createBarbershop(BarbershopDto barbershopDto) {
-        BarbershopEntity barbershopEntity = BarbershopMapper.toEntity(barbershopDto);
+        Barbershop barbershopEntity = BarbershopMapper.toEntity(barbershopDto);
         List<Schedule> scheduleList = barbershopEntity.getSchedule();
-        BarbershopEntity barbershop = barbershopRepository.save(barbershopEntity);
+        Barbershop barbershop = barbershopRepository.save(barbershopEntity);
         barbershop = barbershopRepository.findById(barbershop.getId())
                 .orElseThrow(() -> new RuntimeException("Not found"));
         for (Schedule schedule : scheduleList) {
-            schedule.setBarbershopEntity(barbershop);
+            schedule.setBarbershop(barbershop);
             scheduleRepository.save(schedule);
         }
     }
 
     @Override
     public BarbershopDto getBarbershop(Long id) {
-        BarbershopEntity barbershopEntity = barbershopRepository.findById(id)
+        Barbershop barbershop = barbershopRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("barbershop with id=" + id + " not found"));
-//        List<Schedule> scheduleList = scheduleRepository
-//                .findAllByBarbershopEntityId(barbershopEntity.getId());
-//        barbershopEntity.setSchedule(scheduleList);
-        return BarbershopMapper.toDto(barbershopEntity);
+        return BarbershopMapper.toDto(barbershop);
     }
 
     @Transactional
     @Override
     public boolean updateBarbershop(Long id, BarbershopDto barbershopDto) {
-        Optional<BarbershopEntity> optionalBarbershopEntity = barbershopRepository.findById(id);
+        Optional<Barbershop> optionalBarbershopEntity = barbershopRepository.findById(id);
         if (optionalBarbershopEntity.isPresent()) {
-            BarbershopEntity barbershopEntity = optionalBarbershopEntity.get();
-            barbershopEntity.setAddress(barbershopDto.getAddress());
-            barbershopEntity.setContactPhone(barbershopDto.getContactPhone());
-            barbershopEntity.setContactEmail(barbershopDto.getContactEmail());
-            barbershopEntity.setAverageRating(barbershopDto.getAverageRating());
-            barbershopEntity.setAverageServiceCost(barbershopDto.getAverageServiceCost());
-            barbershopEntity.setSchedule(barbershopDto.getSchedule().stream()
+            Barbershop barbershop = optionalBarbershopEntity.get();
+            barbershop.setAddress(barbershopDto.getAddress());
+            barbershop.setContactPhone(barbershopDto.getContactPhone());
+            barbershop.setContactEmail(barbershopDto.getContactEmail());
+            barbershop.setAverageRating(barbershopDto.getAverageRating());
+            barbershop.setAverageServiceCost(barbershopDto.getAverageServiceCost());
+            barbershop.setSchedule(barbershopDto.getSchedule().stream()
                     .map(ScheduleMapper::toEntity)
                     .collect(Collectors.toList()));
 
-            for (Schedule newSchedule : barbershopEntity.getSchedule()) {
+            for (Schedule newSchedule : barbershop.getSchedule()) {
                 Schedule schedule = scheduleRepository
-                        .findByDayOfWeekAndBarbershopEntityId(newSchedule.getDayOfWeek(), barbershopEntity.getId())
+                        .findByDayOfWeekAndBarbershopId(newSchedule.getDayOfWeek(), barbershop.getId())
                         .orElseThrow(() -> new RuntimeException("Not found"));
                 if (newSchedule.getWorkHours() != null) {
                     schedule.setWorkHours(newSchedule.getWorkHours());
@@ -77,7 +74,7 @@ public class BarbershopServiceImpl implements BarbershopService {
                 }
                 scheduleService.update(ScheduleMapper.toDto(schedule));
             }
-            barbershopRepository.save(barbershopEntity);
+            barbershopRepository.save(barbershop);
             return true;
         }
         return false;
@@ -86,8 +83,8 @@ public class BarbershopServiceImpl implements BarbershopService {
     @Transactional
     @Override
     public boolean deleteBarbershop(Long id) {
-        BarbershopEntity barbershopEntity = barbershopRepository.findById(id).orElseThrow(() -> new RuntimeException("Not found"));
-            for (Schedule schedule: barbershopEntity.getSchedule()) {
+        Barbershop barbershop = barbershopRepository.findById(id).orElseThrow(() -> new RuntimeException("Not found"));
+            for (Schedule schedule: barbershop.getSchedule()) {
                 scheduleService.delete(ScheduleMapper.toDto(schedule));
             }
             barbershopRepository.deleteById(id);
@@ -99,9 +96,9 @@ public class BarbershopServiceImpl implements BarbershopService {
     @Transactional
     public void updateSchedule() {
         System.out.println("check");
-        List<BarbershopEntity> barbershopEntityList = getAllBarberShops();
-        for (BarbershopEntity barbershopEntity : barbershopEntityList) {
-            for (Schedule schedule : barbershopEntity.getSchedule()) {
+        List<Barbershop> barbershopList = getAllBarberShops();
+        for (Barbershop barbershop : barbershopList) {
+            for (Schedule schedule : barbershop.getSchedule()) {
                 schedule.setDate(LocalDate.now().plusDays(schedule.getDayOfWeek().ordinal()));
                 scheduleRepository.save(schedule);
             }
@@ -109,7 +106,7 @@ public class BarbershopServiceImpl implements BarbershopService {
     }
 
     @Override
-    public List<BarbershopEntity> getAllBarberShops() {
+    public List<Barbershop> getAllBarberShops() {
         return barbershopRepository.findAll();
     }
 

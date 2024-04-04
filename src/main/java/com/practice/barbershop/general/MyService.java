@@ -5,6 +5,7 @@ import java.util.List;
 
 /**
  * This is interface witch represents general logic of service
+ * @author David
  * @param <D> dto
  * @param <E> entity
  */
@@ -12,27 +13,27 @@ public interface MyService<D,E> {
 
 
     /**
-     * Get entity
-     * @param id entity id
-     * @return Entity
+     * Get dto from database
+     * @param id dto id
+     * @return Dto
      */
     D getDtoById(Long id);
 
     /**
-     * Get entity
+     * Get entity from database
      * @param id entity id
      * @return Entity
      */
     E getEntityById(Long id);
 
     /**
-     * Save dto in database
+     * Save into database
      * @param dto object
      */
     D save(D dto);
 
     /**
-     * Update dto in database
+     * Checks the existence of a record. Updating the database
      * @param dto object
      */
     D update(D dto);

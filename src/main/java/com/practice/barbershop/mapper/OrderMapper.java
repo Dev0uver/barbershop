@@ -6,7 +6,15 @@ import com.practice.barbershop.model.Barber;
 import com.practice.barbershop.model.Client;
 import com.practice.barbershop.model.Order;
 
+/** Convert OrderDto to Order and Order to OrderDto
+ * @author David
+ */
 public class OrderMapper {
+    /**
+     * Convert Order to OrderDto
+     * @param entity Order
+     * @return OrderDto
+     */
     public static OrderDto toDto(Order entity) {
         OrderDto order = new OrderDto();
 
@@ -22,7 +30,11 @@ public class OrderMapper {
 
         return order;
     }
-
+    /**
+     * Convert OrderDto to Order
+     * @param dto OrderDto
+     * @return Order
+     */
     public static Order toEntity(OrderDto dto) {
         Order order = new Order();
 

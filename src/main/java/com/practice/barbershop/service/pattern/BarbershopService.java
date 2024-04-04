@@ -1,7 +1,7 @@
 package com.practice.barbershop.service.pattern;
 
 import com.practice.barbershop.dto.BarbershopDto;
-import com.practice.barbershop.model.BarbershopEntity;
+import com.practice.barbershop.model.Barbershop;
 
 import java.util.List;
 
@@ -17,5 +17,5 @@ public interface BarbershopService {
 
     void updateSchedule();
 
-    List<BarbershopEntity> getAllBarberShops();
+    List<Barbershop> getAllBarberShops();
 }

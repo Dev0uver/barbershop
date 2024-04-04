@@ -5,6 +5,10 @@ import lombok.Data;
 
 import java.time.LocalDate;
 
+/**
+ * ScheduleDto dto for Schedule entity
+ * @author David
+ */
 @Data
 public class ScheduleDto {
 

@@ -9,5 +9,8 @@ Content-Type: application/json
 }
 
 ### Change barber status via id and status
-PUT http://localhost:8080/barber/change?status=vacation&id=1
+PUT http://localhost:8080/barber/change?status=vacation&id=3
 Content-Type: application/x-www-form-urlencoded
+
+### Get avg rating for current barber
+GET http://localhost:8080/barber/average-rating?barberId=1

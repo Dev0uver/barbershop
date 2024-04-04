@@ -23,3 +23,7 @@ databaseChangeLog:
       file: db/changelog/changeset/add-column-registrations-registration_time.yaml
   - include:
       file: db/changelog/changeset/add-column-barbershop_schedule-date.yaml
+  - include:
+      file: db/changelog/changeset/alter-table-barbershop_schedule.yaml
+  - include:
+      file: db/changelog/changeset/create-table-barber-amenity.yaml

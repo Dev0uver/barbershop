@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
 
-    List<Schedule> findAllByBarbershopEntityId(Long barbershopEntity_id);
+    List<Schedule> findAllByBarbershopId(Long barbershopEntity_id);
 
-    Optional<Schedule> findByDayOfWeekAndBarbershopEntityId(MyDayOfWeek dayOfWeek, Long barbershopEntity_id);
+    Optional<Schedule> findByDayOfWeekAndBarbershopId(MyDayOfWeek dayOfWeek, Long barbershopEntity_id);
 }

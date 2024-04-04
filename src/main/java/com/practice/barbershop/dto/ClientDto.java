@@ -4,6 +4,7 @@ import lombok.Data;
 
 /**
  * Client dto for Client entity
+ * @author David
  */
 @Data
 public class ClientDto {

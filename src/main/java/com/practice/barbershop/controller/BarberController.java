@@ -3,13 +3,14 @@ package com.practice.barbershop.controller;
 import com.practice.barbershop.dto.BarberDto;
 import com.practice.barbershop.general.BarberStatus;
 import com.practice.barbershop.service.BarberService;
+import com.practice.barbershop.service.OrderService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-/**
- * Rest controller for barbers
+/** Responds to requests for barbers
+ * @author David
  */
 @RestController
 @RequestMapping(value = "/barber")
@@ -17,11 +18,13 @@ import org.springframework.web.bind.annotation.*;
 public class BarberController {
 
     private final BarberService barberService;
+    private final OrderService orderService;
 
     /**
-     * Logic for save barber
-     * @param barber Barber entity
-     * @return Answer
+     * RequestMethod=POST. Accepts the DTO of the barber as a request body.
+     * Saves a new barber
+     * @param barber The barber dto
+     * @return ResponseEntity
      */
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     @ResponseBody
@@ -36,10 +39,12 @@ public class BarberController {
     }
 
     /**
-     * Change status of barber
+     * RequestMethod=PUT. Accepts the status of the barber as a parameter.
+     * Checks whether this barber already exists in the database.
+     * Update the barber
      * @param id Barber's ID
      * @param status new status for Barber
-     * @return Answer
+     * @return ResponseEntity
      */
     @RequestMapping(value = "/change", method = RequestMethod.PUT)
     @ResponseBody
@@ -57,5 +62,33 @@ public class BarberController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
+    /**
+     * RequestMethod=GET. Calculates the average mark of all existing orders for current barber.
+     * @param barberId The barber's ID
+     * @return average cost of all amenities
+     */
+    @RequestMapping(value = "/average-rating", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity<?> averageRating(@RequestParam(name = "barberId") Long barberId) {
+        try {
+            BarberDto barberDto = barberService.getDtoById(barberId);
 
+            Double averageMark = orderService.avgRate(barberDto);
+
+            return ResponseEntity.status(HttpStatus.OK).body("Avg. rating=" + averageMark + " for barber with id=" + barberDto.getId());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
+    @RequestMapping(value = "/addAmenity", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseEntity<?> addAmenity(@RequestParam(name = "amenityId") Long amenityId,
+                                        @RequestParam(name = "barberId") Long barberId) {
+        try {
+            barberService.addAmenityToBarber(barberId, amenityId);
+            return ResponseEntity.status(HttpStatus.OK).body("Amenity added");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
 }

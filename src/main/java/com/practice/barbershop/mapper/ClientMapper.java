@@ -4,7 +4,15 @@ package com.practice.barbershop.mapper;
 import com.practice.barbershop.dto.ClientDto;
 import com.practice.barbershop.model.Client;
 
+/** Convert ClientDto to Client and Client to ClientDto
+ * @author David
+ */
 public class ClientMapper {
+    /**
+     * Convert Client to ClientDto
+     * @param entity Client
+     * @return ClientDto
+     */
     public static ClientDto toDto(Client entity) {
         ClientDto client = new ClientDto();
 
@@ -17,7 +25,11 @@ public class ClientMapper {
 
         return client;
     }
-
+    /**
+     * Convert ClientDto to Client
+     * @param dto ClientDto
+     * @return Client
+     */
     public static Client toEntity(ClientDto dto) {
         Client client = new Client();
 

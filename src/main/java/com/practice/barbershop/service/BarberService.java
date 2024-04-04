@@ -1,5 +1,6 @@
 package com.practice.barbershop.service;
 
+import com.practice.barbershop.dto.AmenitiesDto;
 import com.practice.barbershop.dto.BarberDto;
 import com.practice.barbershop.general.MyService;
 import com.practice.barbershop.mapper.BarberMapper;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -19,6 +21,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class BarberService implements MyService<BarberDto, Barber> {
     private final BarberRepository barberRepository;
+    private final AmenitiesService amenitiesService;
 
     /**
      * Return Barber entity by his id
@@ -64,5 +67,25 @@ public class BarberService implements MyService<BarberDto, Barber> {
         List<Barber> barbers = barberRepository.findAll();
         return barbers.stream().map(BarberMapper::toDto)
                 .collect(Collectors.toList());
+    }
+    @Transactional
+    public void addAmenityToBarber(Long barberId, Long amenityId) {
+        BarberDto barber = getDtoById(barberId);
+        AmenitiesDto amenities = amenitiesService.getDtoById(amenityId);
+
+        boolean contains = false;
+        for (AmenitiesDto amenity : barber.getAmenitiesDtoList()) {
+            if (Objects.equals(amenity.getId(), amenities.getId())) {
+                contains = true;
+                break;
+            }
+        }
+        if (!contains) {
+            barber.getAmenitiesDtoList().add(amenities);
+            update(barber);
+        } else {
+            throw new RuntimeException("Amenity have already been added for this barber.");
+        }
+
     }
 }

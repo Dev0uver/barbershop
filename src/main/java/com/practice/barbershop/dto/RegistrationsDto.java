@@ -8,6 +8,7 @@ import java.time.LocalTime;
 
 /**
  * Registrations dto for Registrations entity
+ * @author David
  */
 @Data
 public class RegistrationsDto {

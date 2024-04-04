@@ -7,6 +7,7 @@ import java.time.LocalTime;
 
 /**
  * Order dto for Order entity
+ * @author David
  */
 @Data
 public class OrderDto {

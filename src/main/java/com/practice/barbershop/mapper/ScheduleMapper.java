@@ -1,34 +1,44 @@
 package com.practice.barbershop.mapper;
 
 import com.practice.barbershop.dto.ScheduleDto;
-import com.practice.barbershop.model.BarbershopEntity;
+import com.practice.barbershop.model.Barbershop;
 import com.practice.barbershop.model.Schedule;
-
+/** Convert ScheduleDto to Schedule and Schedule to ScheduleDto
+ * @author David
+ */
 public class ScheduleMapper {
-
-    public static ScheduleDto toDto(Schedule schedule) {
+    /**
+     * Convert Schedule to ScheduleDto
+     * @param entity Schedule
+     * @return ScheduleDto
+     */
+    public static ScheduleDto toDto(Schedule entity) {
         ScheduleDto scheduleDto = new ScheduleDto();
 
-        scheduleDto.setId(schedule.getId());
-        scheduleDto.setDayOfWeek(schedule.getDayOfWeek());
-        scheduleDto.setWorkHours(schedule.getWorkHours());
-        scheduleDto.setDate(schedule.getDate());
-        scheduleDto.setBarbershopId(schedule.getBarbershopEntity().getId());
+        scheduleDto.setId(entity.getId());
+        scheduleDto.setDayOfWeek(entity.getDayOfWeek());
+        scheduleDto.setWorkHours(entity.getWorkHours());
+        scheduleDto.setDate(entity.getDate());
+        scheduleDto.setBarbershopId(entity.getBarbershop().getId());
 
         return scheduleDto;
     }
-
-    public static Schedule toEntity(ScheduleDto scheduleDto) {
+    /**
+     * Convert ScheduleDto to Schedule
+     * @param dto ScheduleDto
+     * @return Schedule
+     */
+    public static Schedule toEntity(ScheduleDto dto) {
         Schedule schedule = new Schedule();
 
-        schedule.setId(scheduleDto.getId());
-        schedule.setDayOfWeek(scheduleDto.getDayOfWeek());
-        schedule.setWorkHours(scheduleDto.getWorkHours());
-        schedule.setDate(scheduleDto.getDate());
+        schedule.setId(dto.getId());
+        schedule.setDayOfWeek(dto.getDayOfWeek());
+        schedule.setWorkHours(dto.getWorkHours());
+        schedule.setDate(dto.getDate());
 
-        BarbershopEntity barbershopEntity = new BarbershopEntity();
-        barbershopEntity.setId(scheduleDto.getBarbershopId());
-        schedule.setBarbershopEntity(barbershopEntity);
+        Barbershop barbershop = new Barbershop();
+        barbershop.setId(dto.getBarbershopId());
+        schedule.setBarbershop(barbershop);
 
         return schedule;
     }

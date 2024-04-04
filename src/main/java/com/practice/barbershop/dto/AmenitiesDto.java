@@ -2,13 +2,13 @@ package com.practice.barbershop.dto;
 
 import lombok.Data;
 
-import java.io.Serializable;
 
 /**
  * Amenities dto for Amenities entity
+ * @author David
  */
 @Data
-public class AmenitiesDto implements Serializable {
+public class AmenitiesDto {
     private Long id;
     private Integer price;
     private String name;

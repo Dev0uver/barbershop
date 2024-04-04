@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-/**
- * Rest controller for registration
+/** Responds to requests for registrations
+ * @author David
  */
 @RestController
 @AllArgsConstructor
@@ -21,11 +21,11 @@ public class RegistrationController {
     private final RegistrationService registrationService;
 
     /**
-     * Register client logic
-     * @param time The time of registration
-     * @param day The date of registration
-     * @param clientId The client's id which is being registered
-     * @return Answer
+     * RequestMethod=POST. Accepts the DTO of the registration as a request body.
+     * Checks the existence of a record for a given date, time, and barber.
+     * Saves a new registration
+     * @param registrationsDto The registration dto
+     * @return ResponseEntity
      */
     @RequestMapping(value = "/registration", method = RequestMethod.POST, produces = "application/json")
     @ResponseBody
@@ -43,10 +43,13 @@ public class RegistrationController {
     }
 
     /**
-     * Cancel registration
+     * RequestMethod=POST. Accepts the time, day, barberId of the registration as a parameters.
+     * Checks whether this registration on these parameters already exists in the database.
+     * Cancel the registration.
      * @param time The time of registration
      * @param day The date of registration
-     * @return Answer
+     * @param barberId The barber's ID
+     * @return ResponseEntity
      */
     @RequestMapping(value = "/cancel", method = RequestMethod.PUT)
     @ResponseBody

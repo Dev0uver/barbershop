@@ -5,7 +5,9 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.List;
-
+/** ORM-model of Barber
+ * @author David
+ */
 @Entity
 @Data
 public class Barber {
@@ -22,4 +24,11 @@ public class Barber {
     private List<Order> orderList;
     @OneToMany(mappedBy = "barber")
     private List<Registration> registrationList;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "barber_amenities",
+            joinColumns = @JoinColumn(name = "barber_id"),
+            inverseJoinColumns = @JoinColumn(name = "amenities_id")
+    )
+    private List<Amenities> amenitiesList;
 }

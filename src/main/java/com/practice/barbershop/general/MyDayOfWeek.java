@@ -1,7 +1,8 @@
 package com.practice.barbershop.general;
 
 /**
- * This is enum class that represents the days of the week
+ * This is enum class witch represents day of week
+ * @author David
  */
 public enum MyDayOfWeek {
     MONDAY,

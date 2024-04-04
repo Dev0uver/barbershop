@@ -1,11 +1,8 @@
 ### Create order
-POST http://localhost:8080/order/create/reg?regId=1
+POST http://localhost:8080/order/create/reg?regId=2
 
 ### Set mark for order
 PUT http://localhost:8080/order/mark?mark=5&orderId=1
-
-### Get avg rating for current barber
-GET http://localhost:8080/order/average-rating?barberId=1
 
 ### Set amenity to order
 POST http://localhost:8080/order/add-amenity?orderId=1&amenityId=1

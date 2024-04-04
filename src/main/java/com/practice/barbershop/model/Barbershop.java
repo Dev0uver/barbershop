@@ -4,11 +4,13 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.List;
-
+/** ORM-model of Barbershop
+ * @author David
+ */
 @Entity
 @Table(name = "barbershop")
 @Data
-public class BarbershopEntity {
+public class Barbershop {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,7 +21,7 @@ public class BarbershopEntity {
     private Double averageRating;
     private Integer averageServiceCost;
 
-    @OneToMany(mappedBy = "barbershopEntity",
+    @OneToMany(mappedBy = "barbershop",
     fetch = FetchType.EAGER)
     private List<Schedule> schedule;
 
