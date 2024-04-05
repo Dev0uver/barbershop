@@ -3,14 +3,47 @@ POST http://localhost:8080/barber/create
 Content-Type: application/json
 
 {
-  "phone": "barberPhone1",
-  "email": "barberEmail1",
-  "barberStatus": "WORK"
+  "firstName": "firstName",
+  "lastName": "lastName",
+  "patronymic": "patronymic",
+  "phone": "phone",
+  "email": "email",
+  "barberStatus": "WORK",
+  "barberDegree": "SENIOR_BARBER",
+  "amenitiesDtoList": [
+    {
+      "id": 1
+    },
+    {
+      "id": 2
+    }
+  ]
 }
 
-### Change barber status via id and status
-PUT http://localhost:8080/barber/change?status=vacation&id=3
+### Get info about barber
+GET http://localhost:8080/barber/info?barberId=1
+
+### Change barber status
+PUT http://localhost:8080/barber/change-status?status=vacation&id=1
 Content-Type: application/x-www-form-urlencoded
 
-### Get avg rating for current barber
+### Change barber degree
+PUT http://localhost:8080/barber/change-degree?id=1&degree=top_barber
+Content-Type: application/x-www-form-urlencoded
+
+### Add amenity to cur barber
+POST http://localhost:8080/barber/addAmenity?barberId=1&amenityId=2
+Content-Type: application/x-www-form-urlencoded
+
+#Sub info
+### Get avg mark for current barber
 GET http://localhost:8080/barber/average-rating?barberId=1
+
+### Get all orders made by the barber
+GET http://localhost:8080/barber/barber-orders?barberId=1
+
+### Need postman. Load img for barber.
+POST http://localhost:8080/barber/loadPhoto
+
+
+

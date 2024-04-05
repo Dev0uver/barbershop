@@ -1,0 +1,29 @@
+databaseChangeLog:
+  - changeSet:
+      id: alter-barber-table
+      author: David
+      changes:
+        - addColumn:
+            tableName: barber
+            columns:
+              - column:
+                  name: first_name
+                  type: varchar(100)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: last_name
+                  type: varchar(100)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: patronymic
+                  type: varchar(100)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: barber_degree
+                  type: smallint
+                  defaultValue: '0'
+                  constraints:
+                    nullable: false

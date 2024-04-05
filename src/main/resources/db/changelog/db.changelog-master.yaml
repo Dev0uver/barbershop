@@ -29,3 +29,5 @@ databaseChangeLog:
       file: db/changelog/changeset/create-table-barber-amenity.yaml
   - include:
       file: db/changelog/changeset/create-table-barbers_photo.yaml
+  - include:
+      file: db/changelog/changeset/alter-barber-table.yaml

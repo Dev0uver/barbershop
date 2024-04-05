@@ -74,6 +74,7 @@ public class RegistrationService implements MyService<RegistrationsDto, Registra
     }
 
     @Override
+    @Transactional
     public RegistrationsDto update(RegistrationsDto dto) {
         return RegistrationsMapper.toDto(registrationRepository.save(RegistrationsMapper.toEntity(dto)));
     }
@@ -113,10 +114,6 @@ public class RegistrationService implements MyService<RegistrationsDto, Registra
 
     /**
      * For link Registration to Client, Barber and set basic initialization
-     * @param time The time of registration
-     * @param date The date of registration
-     * @param clientId The client who registering
-     * @param barberId The barber
      * @return RegistrationDto obj link to the client and barber
      */
     public RegistrationsDto setClient(RegistrationsDto registrationsDto) {

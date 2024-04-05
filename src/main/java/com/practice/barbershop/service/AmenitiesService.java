@@ -30,6 +30,7 @@ public class AmenitiesService implements MyService<AmenitiesDto, Amenities> {
     }
 
     @Override
+    @Transactional
     public AmenitiesDto save(AmenitiesDto dto) {
         dto.setId(null);
         Optional<Amenities> amenity = amenitiesRepository.getAmenitiesByName(dto.getName().toLowerCase());
@@ -42,6 +43,7 @@ public class AmenitiesService implements MyService<AmenitiesDto, Amenities> {
     }
 
     @Override
+    @Transactional
     public AmenitiesDto update(AmenitiesDto dto) {
         return AmenitiesMapper.toDto(amenitiesRepository.save(AmenitiesMapper.toEntity(dto)));
     }
@@ -53,11 +55,6 @@ public class AmenitiesService implements MyService<AmenitiesDto, Amenities> {
                 .collect(Collectors.toList());
     }
 
-    @Transactional
-    public void updateEntity(Amenities amenities) {
-        amenitiesRepository.save(amenities);
-    }
-
     public Double getAvgPrice() {
         List<Amenities> amenities = amenitiesRepository.findAll();
         Double sumPrice = 0D;
@@ -66,4 +63,5 @@ public class AmenitiesService implements MyService<AmenitiesDto, Amenities> {
         }
         return !amenities.isEmpty() ? sumPrice / amenities.size() : sumPrice;
     }
+
 }

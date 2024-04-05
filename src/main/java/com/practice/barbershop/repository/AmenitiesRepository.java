@@ -18,4 +18,5 @@ public interface AmenitiesRepository extends JpaRepository<Amenities, Long> {
     Optional<Amenities> getAmenitiesById(Long id);
 
     Optional<Amenities> getAmenitiesByName(String name);
+
 }

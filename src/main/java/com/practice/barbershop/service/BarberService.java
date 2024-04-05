@@ -40,8 +40,9 @@ public class BarberService implements MyService<BarberDto, Barber> {
      */
     @Override
     public BarberDto getDtoById(Long id) {
-        return BarberMapper.toDto(barberRepository.getBarberById(id)
-                .orElseThrow(() -> new RuntimeException("Barber with id=" + id + " not found.")));
+        Barber barber = barberRepository.getBarberById(id)
+                .orElseThrow(() -> new RuntimeException("Barber with id=" + id + " not found."));
+        return BarberMapper.toDto(barber);
     }
 
     /**
@@ -64,12 +65,20 @@ public class BarberService implements MyService<BarberDto, Barber> {
     public BarberDto save(BarberDto dto) {
         dto.setId(null);
         Barber savedBarber = barberRepository.save(BarberMapper.toEntity(dto));
+        savedBarber.getAmenitiesList()
+                .replaceAll(amenities -> amenitiesService.getEntityById(amenities.getId()));
+        savedBarber.setPhotoList(photoService.getPhotoByBarberId(savedBarber.getId()));
         return BarberMapper.toDto(savedBarber);
     }
 
     @Override
+    @Transactional
     public BarberDto update(BarberDto dto) {
-        return BarberMapper.toDto(barberRepository.save(BarberMapper.toEntity(dto)));
+        Barber updatedBarber = barberRepository.save(BarberMapper.toEntity(dto));
+        updatedBarber.getAmenitiesList()
+                .replaceAll(amenities -> amenitiesService.getEntityById(amenities.getId()));
+        updatedBarber.setPhotoList(photoService.getPhotoByBarberId(updatedBarber.getId()));
+        return BarberMapper.toDto(updatedBarber);
     }
 
     @Override
@@ -119,5 +128,24 @@ public class BarberService implements MyService<BarberDto, Barber> {
         //File copy
         Files.copy(file.getInputStream(), Paths.get(filePath));
         return name;
+    }
+
+    @Transactional
+    public String deleteImage(String path, String fileName, Long barberId) {
+        File deleteFile = new File(path + fileName);
+
+        Barber barber = getEntityById(barberId);
+        List<Photo> photos = barber.getPhotoList();
+
+        photos.removeIf(photo -> Objects.equals(photo.toString(), fileName));
+
+        barber.setPhotoList(photos);
+        update(BarberMapper.toDto(barber));
+
+        if (deleteFile.delete()) {
+            return  "Deleted the file: " + deleteFile.getName();
+        }
+
+        return "Failed to delete the file.";
     }
 }

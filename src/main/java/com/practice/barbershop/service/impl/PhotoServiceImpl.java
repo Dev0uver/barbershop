@@ -27,6 +27,7 @@ public class PhotoServiceImpl implements PhotoService {
     }
 
     @Override
+    @Transactional
     public void update(Photo photo) {
         if (photo.getId() == null) {
             throw new RuntimeException("Id must be not null");

@@ -23,5 +23,5 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     Optional<Order> getOrderByTimeAndDayAndBarber(LocalTime time, LocalDate day, Barber barber);
 
     @Query(value = "SELECT o FROM Order o WHERE o.barber.id = ?1")
-    List<Order> getByBarbers(Long barberId);
+    List<Order> getByBarber(Long barberId);
 }
