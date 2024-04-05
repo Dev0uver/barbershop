@@ -27,3 +27,5 @@ databaseChangeLog:
       file: db/changelog/changeset/alter-table-barbershop_schedule.yaml
   - include:
       file: db/changelog/changeset/create-table-barber-amenity.yaml
+  - include:
+      file: db/changelog/changeset/create-table-barbers_photo.yaml

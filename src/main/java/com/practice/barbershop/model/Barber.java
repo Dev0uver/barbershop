@@ -37,4 +37,6 @@ public class Barber {
             inverseJoinColumns = @JoinColumn(name = "amenities_id")
     )
     private List<Amenities> amenitiesList;
+    @OneToMany(mappedBy = "barber")
+    private List<Photo> photoList;
 }

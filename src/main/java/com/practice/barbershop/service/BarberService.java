@@ -2,10 +2,14 @@ package com.practice.barbershop.service;
 
 import com.practice.barbershop.dto.AmenitiesDto;
 import com.practice.barbershop.dto.BarberDto;
+import com.practice.barbershop.dto.PhotoDto;
 import com.practice.barbershop.general.MyService;
 import com.practice.barbershop.mapper.BarberMapper;
+import com.practice.barbershop.mapper.PhotoMapper;
 import com.practice.barbershop.model.Barber;
+import com.practice.barbershop.model.Photo;
 import com.practice.barbershop.repository.BarberRepository;
+import com.practice.barbershop.service.impl.PhotoServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +31,7 @@ import java.util.stream.Collectors;
 public class BarberService implements MyService<BarberDto, Barber> {
     private final BarberRepository barberRepository;
     private final AmenitiesService amenitiesService;
+    private final PhotoServiceImpl photoService;
 
     /**
      * Return Barber entity by his id
@@ -92,12 +97,20 @@ public class BarberService implements MyService<BarberDto, Barber> {
             throw new RuntimeException("Amenity have already been added for this barber.");
         }
     }
-
-    public String uploadImage(String path, MultipartFile file) throws IOException {
+    @Transactional
+    public String uploadImage(String path, MultipartFile file, Long barberId) throws IOException {
         //Filename
         String name = file.getOriginalFilename();
+
+        PhotoDto photoDto = new PhotoDto();
+        photoDto.setBarberId(barberId);
+        photoDto.setName(name);
+
+        Photo photo = photoService.save(PhotoMapper.toEntity(photoDto));
+        String photoName = photo.getId() + "_" + name;
+
         //Full path
-        String filePath = path + File.separator + name;
+        String filePath = path + File.separator + photoName;
         //Create folder if not created
         File f = new File(path);
         if (!f.exists()) {

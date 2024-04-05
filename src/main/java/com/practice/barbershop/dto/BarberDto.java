@@ -16,4 +16,5 @@ public class BarberDto {
     private String email;
     private BarberStatus barberStatus;
     private List<AmenitiesDto> amenitiesDtoList;
+    private List<PhotoDto> photoList;
 }

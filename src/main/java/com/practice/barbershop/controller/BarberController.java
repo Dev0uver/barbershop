@@ -5,7 +5,6 @@ import com.practice.barbershop.general.BarberStatus;
 import com.practice.barbershop.service.BarberService;
 import com.practice.barbershop.service.OrderService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,8 +22,8 @@ public class BarberController {
     private final BarberService barberService;
     private final OrderService orderService;
 
-    @Value("${project.image}")
-    private static String path;
+
+    private static final String path = "src/main/resources/photo";
 
     /**
      * RequestMethod=POST. Accepts the DTO of the barber as a request body.
@@ -98,11 +97,12 @@ public class BarberController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
-    @RequestMapping(value = "/loadPhoto", method = RequestMethod.GET)
+    @RequestMapping(value = "/loadPhoto", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<?> addBarbersPhoto(@RequestParam(name = "photo") MultipartFile photo) {
+    public ResponseEntity<?> addBarbersPhoto(@RequestParam(name = "photo") MultipartFile photo,
+                                             @RequestParam(name = "barberId") Long barberId) {
         try {
-            String fileName = barberService.uploadImage(path, photo);
+            String fileName = barberService.uploadImage(path, photo, barberId);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Photo with name=" + fileName + " successfully added");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());

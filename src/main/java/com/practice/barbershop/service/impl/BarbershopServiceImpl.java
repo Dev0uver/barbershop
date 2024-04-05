@@ -8,7 +8,7 @@ import com.practice.barbershop.model.Schedule;
 import com.practice.barbershop.repository.BarbershopRepository;
 import com.practice.barbershop.repository.ScheduleRepository;
 import com.practice.barbershop.service.ScheduleService;
-import com.practice.barbershop.service.pattern.BarbershopService;
+import com.practice.barbershop.service.BarbershopService;
 import lombok.AllArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
