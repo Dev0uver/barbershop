@@ -1,6 +1,5 @@
 package com.practice.barbershop.controller;
 
-import com.practice.barbershop.dto.AmenitiesDto;
 import com.practice.barbershop.dto.BarberDto;
 import com.practice.barbershop.general.BarberDegree;
 import com.practice.barbershop.general.BarberStatus;
@@ -38,7 +37,7 @@ public class BarberController {
     public ResponseEntity<?> createBarber(@RequestBody BarberDto barber) {
         try {
             BarberDto savedBarber = barberService.save(barber);
-            savedBarber.getAmenitiesDtoList().forEach((AmenitiesDto a) -> a.setPrice((int) Math.floor(a.getPrice() * savedBarber.getBarberDegree().getExtraCharge())));
+//            savedBarber.getAmenitiesDtoList().forEach((AmenitiesDto a) -> a.setPrice((int) Math.floor(a.getPrice() * savedBarber.getBarberDegree().getExtraCharge())));
             return ResponseEntity.status(HttpStatus.OK).body(savedBarber);
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -63,8 +62,9 @@ public class BarberController {
         try {
             BarberDto barber = barberService.getDtoById(id);
             barber.setBarberStatus(BarberStatus.valueOf(status.toUpperCase()));
-            barberService.update(barber);
-            barber.getAmenitiesDtoList().forEach((AmenitiesDto a) -> a.setPrice((int) Math.floor(a.getPrice() * barber.getBarberDegree().getExtraCharge())));            return ResponseEntity.status(HttpStatus.OK).body(barber);
+            barber = barberService.update(barber);
+//            barber.getAmenitiesDtoList().forEach((AmenitiesDto a) -> a.setPrice((int) Math.floor(a.getPrice() * barber.getBarberDegree().getExtraCharge())));            return ResponseEntity.status(HttpStatus.OK).body(barber);
+            return ResponseEntity.status(HttpStatus.OK).body(barber);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
@@ -79,8 +79,8 @@ public class BarberController {
         try {
             BarberDto barber = barberService.getDtoById(id);
             barber.setBarberDegree(BarberDegree.valueOf(degree.toUpperCase()));
-            barberService.update(barber);
-            barber.getAmenitiesDtoList().forEach((AmenitiesDto a) -> a.setPrice((int) Math.floor(a.getPrice() * barber.getBarberDegree().getExtraCharge())));
+            barber = barberService.update(barber);
+//            barber.getAmenitiesDtoList().forEach((AmenitiesDto a) -> a.setPrice((int) Math.floor(a.getPrice() * barber.getBarberDegree().getExtraCharge())));
             return ResponseEntity.status(HttpStatus.OK).body(barber);
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -116,6 +116,19 @@ public class BarberController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
+
+    @RequestMapping(value = "/deleteAmenity", method = RequestMethod.DELETE)
+    @ResponseBody
+    public ResponseEntity<?> deleteAmenity(@RequestParam(name = "amenityId") Long amenityId,
+                                        @RequestParam(name = "barberId") Long barberId) {
+        try {
+            barberService.deleteAmenityFromBarber(barberId, amenityId);
+            return ResponseEntity.status(HttpStatus.OK).body("Amenity deleted");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
     @RequestMapping(value = "/loadPhoto", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<?> addBarbersPhoto(@RequestParam(name = "photo") MultipartFile photo,
@@ -147,8 +160,6 @@ public class BarberController {
     public ResponseEntity<?> info(@RequestParam(name = "barberId") Long barberId) {
         try {
             BarberDto barberDto = barberService.getDtoById(barberId);
-            barberDto.getAmenitiesDtoList().forEach((AmenitiesDto a) -> a.setPrice((int) Math.floor(a.getPrice() * barberDto.getBarberDegree().getExtraCharge())));
-
             return ResponseEntity.status(HttpStatus.OK).body(barberDto);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
@@ -160,6 +171,17 @@ public class BarberController {
     public ResponseEntity<?> getOrdersByBarber(@RequestParam(name = "barberId") Long barberId) {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(orderService.getOrdersByBarberId(barberId));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
+    @RequestMapping(value = "/update-barber", method = RequestMethod.PUT)
+    @ResponseBody
+    public ResponseEntity<?> updateBarber(@RequestBody BarberDto barber) {
+        try {
+
+            return ResponseEntity.status(HttpStatus.OK).body(barberService.update(barber));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }

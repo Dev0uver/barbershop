@@ -4,6 +4,7 @@ import com.practice.barbershop.dto.AmenitiesDto;
 import com.practice.barbershop.dto.BarberDto;
 import com.practice.barbershop.dto.PhotoDto;
 import com.practice.barbershop.general.MyService;
+import com.practice.barbershop.mapper.AmenitiesMapper;
 import com.practice.barbershop.mapper.BarberMapper;
 import com.practice.barbershop.mapper.PhotoMapper;
 import com.practice.barbershop.model.Barber;
@@ -40,9 +41,11 @@ public class BarberService implements MyService<BarberDto, Barber> {
      */
     @Override
     public BarberDto getDtoById(Long id) {
-        Barber barber = barberRepository.getBarberById(id)
-                .orElseThrow(() -> new RuntimeException("Barber with id=" + id + " not found."));
-        return BarberMapper.toDto(barber);
+        BarberDto barber = BarberMapper.toDto(barberRepository.getBarberById(id)
+                .orElseThrow(() -> new RuntimeException("Barber with id=" + id + " not found.")));
+        barber.getAmenitiesDtoList().forEach((AmenitiesDto a) -> a.setPrice((int) Math.floor(a.getPrice() * barber.getBarberDegree().getExtraCharge())));
+
+        return barber;
     }
 
     /**
@@ -54,6 +57,7 @@ public class BarberService implements MyService<BarberDto, Barber> {
     public Barber getEntityById(Long id) {
         return barberRepository.getBarberById(id)
                 .orElseThrow(() -> new RuntimeException("Barber with id=" + id + " not found."));
+
     }
 
     /**
@@ -68,17 +72,36 @@ public class BarberService implements MyService<BarberDto, Barber> {
         savedBarber.getAmenitiesList()
                 .replaceAll(amenities -> amenitiesService.getEntityById(amenities.getId()));
         savedBarber.setPhotoList(photoService.getPhotoByBarberId(savedBarber.getId()));
-        return BarberMapper.toDto(savedBarber);
+
+        BarberDto finalDto = BarberMapper.toDto(savedBarber);
+        finalDto.getAmenitiesDtoList().forEach((AmenitiesDto a) -> a.setPrice((int) Math.floor(a.getPrice() * dto.getBarberDegree().getExtraCharge())));
+        return finalDto;
     }
 
     @Override
     @Transactional
     public BarberDto update(BarberDto dto) {
-        Barber updatedBarber = barberRepository.save(BarberMapper.toEntity(dto));
+
+        Barber updatedBarber = getEntityById(dto.getId());
+
+        if (dto.getAmenitiesDtoList() == null && updatedBarber.getAmenitiesList() != null) {
+            dto.setAmenitiesDtoList(updatedBarber.getAmenitiesList().stream()
+                    .map(AmenitiesMapper::toDto).collect(Collectors.toList()));
+        }
+        if (dto.getPhotoDtoList() == null && updatedBarber.getPhotoList() != null) {
+            dto.setPhotoDtoList(updatedBarber.getPhotoList().stream()
+                    .map(PhotoMapper::toDto).collect(Collectors.toList()));
+        }
+
+        updatedBarber = barberRepository.save(BarberMapper.toEntity(dto));
         updatedBarber.getAmenitiesList()
                 .replaceAll(amenities -> amenitiesService.getEntityById(amenities.getId()));
         updatedBarber.setPhotoList(photoService.getPhotoByBarberId(updatedBarber.getId()));
-        return BarberMapper.toDto(updatedBarber);
+
+        BarberDto finalDto = BarberMapper.toDto(updatedBarber);
+        finalDto.getAmenitiesDtoList().forEach((AmenitiesDto a) -> a.setPrice((int) Math.floor(a.getPrice() * dto.getBarberDegree().getExtraCharge())));
+
+        return finalDto;
     }
 
     @Override
@@ -104,6 +127,26 @@ public class BarberService implements MyService<BarberDto, Barber> {
             update(barber);
         } else {
             throw new RuntimeException("Amenity have already been added for this barber.");
+        }
+    }
+
+    @Transactional
+    public void deleteAmenityFromBarber(Long barberId, Long amenityId) {
+        BarberDto barber = getDtoById(barberId);
+        AmenitiesDto amenities = amenitiesService.getDtoById(amenityId);
+
+        boolean contains = false;
+        for (AmenitiesDto amenity : barber.getAmenitiesDtoList()) {
+            if (Objects.equals(amenity.getId(), amenities.getId())) {
+                contains = true;
+                break;
+            }
+        }
+        if (contains) {
+            barber.getAmenitiesDtoList().removeIf(amenitiesDto -> Objects.equals(amenitiesDto.getId(), amenityId));
+            update(barber);
+        } else {
+            throw new RuntimeException("Amenity with id=" + amenityId + " not found for this barber.");
         }
     }
     @Transactional
@@ -132,11 +175,16 @@ public class BarberService implements MyService<BarberDto, Barber> {
 
     @Transactional
     public String deleteImage(String path, String fileName, Long barberId) {
-        File deleteFile = new File(path + fileName);
+        File deleteFile = new File(path + "\\" + fileName);
 
         Barber barber = getEntityById(barberId);
         List<Photo> photos = barber.getPhotoList();
 
+        for (Photo photo : photos) {
+            if (Objects.equals(photo.toString(), fileName)) {
+                photoService.delete(photo);
+            }
+        }
         photos.removeIf(photo -> Objects.equals(photo.toString(), fileName));
 
         barber.setPhotoList(photos);

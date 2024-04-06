@@ -20,6 +20,21 @@ Content-Type: application/json
   ]
 }
 
+### Update barber
+PUT http://localhost:8080/barber/update-barber
+Content-Type: application/json
+
+{
+  "id": 1,
+  "firstName": "firstName",
+  "lastName": "lastName",
+  "patronymic": "patronymic",
+  "phone": "phone",
+  "email": "email",
+  "barberStatus": "WORK",
+  "barberDegree": "SENIOR_BARBER"
+}
+
 ### Get info about barber
 GET http://localhost:8080/barber/info?barberId=1
 
@@ -28,12 +43,15 @@ PUT http://localhost:8080/barber/change-status?status=vacation&id=1
 Content-Type: application/x-www-form-urlencoded
 
 ### Change barber degree
-PUT http://localhost:8080/barber/change-degree?id=1&degree=top_barber
+PUT http://localhost:8080/barber/change-degree?id=23&degree=top_barber
 Content-Type: application/x-www-form-urlencoded
 
 ### Add amenity to cur barber
-POST http://localhost:8080/barber/addAmenity?barberId=1&amenityId=2
+POST http://localhost:8080/barber/addAmenity?barberId=23&amenityId=4
 Content-Type: application/x-www-form-urlencoded
+
+### Delete amenity from barber
+DELETE http://localhost:8080/barber/deleteAmenity?amenityId=4&barberId=23
 
 #Sub info
 ### Get avg mark for current barber
@@ -44,6 +62,9 @@ GET http://localhost:8080/barber/barber-orders?barberId=1
 
 ### Need postman. Load img for barber.
 POST http://localhost:8080/barber/loadPhoto
+
+### Delete photo.
+DELETE http://localhost:8080/barber/deletePhoto?photoName=1_Capture001.png&barberId=1
 
 
 
