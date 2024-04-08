@@ -1,0 +1,9 @@
+databaseChangeLog:
+  - changeSet:
+      id: add-column-amenities-duration
+      author: Devouver
+      changes:
+        - modifyDataType:
+            tableName: amenities
+            columnName: duration
+            newDataType: time without time zone

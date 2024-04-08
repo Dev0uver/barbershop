@@ -47,8 +47,8 @@ public class BarbershopServiceImpl implements BarbershopService {
         return BarbershopMapper.toDto(barbershop);
     }
 
-    @Transactional
     @Override
+    @Transactional
     public boolean updateBarbershop(Long id, BarbershopDto barbershopDto) {
         Optional<Barbershop> optionalBarbershopEntity = barbershopRepository.findById(id);
         if (optionalBarbershopEntity.isPresent()) {
@@ -80,8 +80,8 @@ public class BarbershopServiceImpl implements BarbershopService {
         return false;
     }
 
-    @Transactional
     @Override
+    @Transactional
     public boolean deleteBarbershop(Long id) {
         Barbershop barbershop = barbershopRepository.findById(id).orElseThrow(() -> new RuntimeException("Not found"));
             for (Schedule schedule: barbershop.getSchedule()) {
@@ -109,6 +109,5 @@ public class BarbershopServiceImpl implements BarbershopService {
     public List<Barbershop> getAllBarberShops() {
         return barbershopRepository.findAll();
     }
-
 
 }

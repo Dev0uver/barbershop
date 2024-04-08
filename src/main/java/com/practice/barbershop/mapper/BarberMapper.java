@@ -4,7 +4,6 @@ package com.practice.barbershop.mapper;
 import com.practice.barbershop.dto.BarberDto;
 import com.practice.barbershop.model.Barber;
 
-import java.util.stream.Collectors;
 
 /** Convert Barber to BarberDto and BarberDto to Barber
  * @author David
@@ -23,10 +22,6 @@ public class BarberMapper {
         barber.setBarberStatus(entity.getBarberStatus());
         barber.setPhone(entity.getPhone());
 
-        barber.setAmenitiesDtoList(entity.getAmenitiesList()
-                .stream().map(AmenitiesMapper::toDto)
-                .collect(Collectors.toList()));
-
         return barber;
     }
     /**
@@ -41,10 +36,6 @@ public class BarberMapper {
         barber.setPhone(dto.getPhone());
         barber.setEmail(dto.getEmail());
         barber.setBarberStatus(dto.getBarberStatus());
-
-        barber.setAmenitiesList(dto.getAmenitiesDtoList()
-                .stream().map(AmenitiesMapper::toEntity)
-                .collect(Collectors.toList()));
 
         return barber;
     }

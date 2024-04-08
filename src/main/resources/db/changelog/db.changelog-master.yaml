@@ -27,3 +27,9 @@ databaseChangeLog:
       file: db/changelog/changeset/alter-table-barbershop_schedule.yaml
   - include:
       file: db/changelog/changeset/create-table-barber-amenity.yaml
+  - include:
+      file: db/changelog/changeset/add-column-amenities-duration.yaml
+  - include:
+      file: db/changelog/changeset/alter-table-amenities-change-duration-type.yaml
+  - include:
+      file: db/changelog/changeset/add-column-amenities-description.yaml

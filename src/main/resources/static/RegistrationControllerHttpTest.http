@@ -3,7 +3,7 @@ POST http://localhost:8080/reg/registration
 Content-Type: application/json
 
 {
-  "time": "10:00",
+  "time": "10:01",
   "day": "2024-01-01",
   "client_id": 1,
   "barber_id": 1
