@@ -35,7 +35,7 @@ public class BarberService implements MyService<BarberDto, Barber> {
     private final PhotoServiceImpl photoService;
 
     /**
-     * Get barber from db if it exists or else not found runtime exception.
+     * Get barber from db if it exists or else throw not found runtime exception.
      * Change amenity price via barbers degree.
      * Return barber dto.
      * @param id barber id
@@ -56,7 +56,7 @@ public class BarberService implements MyService<BarberDto, Barber> {
     }
 
     /**
-     * Get barber from db if it exists or else not found runtime exception. Return barber entity.
+     * Get barber from db if it exists or else throw not found runtime exception. Return barber entity.
      * @param id entity id
      * @return Barber entity
      */
@@ -79,13 +79,17 @@ public class BarberService implements MyService<BarberDto, Barber> {
     @Override
     @Transactional
     public BarberDto save(BarberDto dto) {
+
         dto.setId(null);
-        Barber savedBarber = barberRepository.save(BarberMapper.toEntity(dto));
+        Long savedBarberId = barberRepository.save(BarberMapper.toEntity(dto)).getId();
+        Barber savedBarber = getEntityById(savedBarberId);
+
         savedBarber.getAmenitiesList()
                 .replaceAll(amenities -> amenitiesService.getEntityById(amenities.getId()));
         savedBarber.setPhotoList(photoService.getPhotoByBarberId(savedBarber.getId()));
 
         BarberDto finalDto = BarberMapper.toDto(savedBarber);
+
         finalDto.getAmenitiesDtoList().forEach(
                 (AmenitiesDto a) ->
                         a.setPrice((int) Math.floor(a.getPrice() * dto.getBarberDegree().getExtraCharge()))
@@ -95,7 +99,7 @@ public class BarberService implements MyService<BarberDto, Barber> {
 
     /**
      * Trying to get this barber from db via id
-     * if barber not exists run new not found runtime exception.
+     * if barber not exists throw new not found runtime exception.
      * if dto amenity and photo lists != null,
      * then convert updated barber amenity and photo entities lists
      * to dto and set to dto object. Update barber into db.
@@ -122,8 +126,6 @@ public class BarberService implements MyService<BarberDto, Barber> {
         }
 
         updatedBarber = barberRepository.save(BarberMapper.toEntity(dto));
-        updatedBarber.getAmenitiesList()
-                .replaceAll(amenities -> amenitiesService.getEntityById(amenities.getId()));
         updatedBarber.setPhotoList(photoService.getPhotoByBarberId(updatedBarber.getId()));
 
         BarberDto finalDto = BarberMapper.toDto(updatedBarber);
@@ -174,7 +176,7 @@ public class BarberService implements MyService<BarberDto, Barber> {
     }
     /**
      * Delete Amenity from barber via barber id and amenity id.
-     * trying to get amenity. If not found run new not found runtime exception.
+     * trying to get amenity. If not found throw new not found runtime exception.
      * Then check barber amenities list contains amenity or else run new runtime exception.
      * If barber contains this amenity. Remove amenity from list and update barber
      * @param barberId ID of barber
@@ -250,11 +252,17 @@ public class BarberService implements MyService<BarberDto, Barber> {
         Barber barber = getEntityById(barberId);
         List<Photo> photos = barber.getPhotoList();
 
+        boolean contains = false;
         for (Photo photo : photos) {
             if (Objects.equals(photo.toString(), fileName)) {
                 photoService.delete(photo);
+                contains = true;
             }
         }
+        if (!contains) {
+            throw new RuntimeException("This barber doesn't have this photo.");
+        }
+
         photos.removeIf(photo -> Objects.equals(photo.toString(), fileName));
 
         barber.setPhotoList(photos);

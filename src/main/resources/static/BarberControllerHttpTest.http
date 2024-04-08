@@ -9,7 +9,23 @@ Content-Type: application/json
   "phone": "phone",
   "email": "email",
   "barberStatus": "WORK",
-  "barberDegree": "SENIOR_BARBER",
+  "barberDegree": "SENIOR_BARBER"
+
+}
+
+### Update barber
+PUT http://localhost:8080/barber/update-barber
+Content-Type: application/json
+
+{
+  "id": 32,
+  "firstName": "firstName",
+  "lastName": "lastName",
+  "patronymic": "patronymic",
+  "phone": "phone",
+  "email": "email",
+  "barberStatus": "WORK",
+  "barberDegree": "BARBER",
   "amenitiesDtoList": [
     {
       "id": 1
@@ -20,51 +36,45 @@ Content-Type: application/json
   ]
 }
 
-### Update barber
-PUT http://localhost:8080/barber/update-barber
-Content-Type: application/json
-
-{
-  "id": 1,
-  "firstName": "firstName",
-  "lastName": "lastName",
-  "patronymic": "patronymic",
-  "phone": "phone",
-  "email": "email",
-  "barberStatus": "WORK",
-  "barberDegree": "SENIOR_BARBER"
-}
-
 ### Get info about barber
 GET http://localhost:8080/barber/info?barberId=1
 
 ### Change barber status
-PUT http://localhost:8080/barber/change-status?status=vacation&id=1
+PUT http://localhost:8080/barber/change-status?status=vacation&id=25
 Content-Type: application/x-www-form-urlencoded
 
 ### Change barber degree
-PUT http://localhost:8080/barber/change-degree?id=23&degree=top_barber
+PUT http://localhost:8080/barber/change-degree?id=32&degree=top_barber
 Content-Type: application/x-www-form-urlencoded
 
 ### Add amenity to cur barber
-POST http://localhost:8080/barber/addAmenity?barberId=23&amenityId=4
+POST http://localhost:8080/barber/addAmenity?barberId=25&amenityId=3
 Content-Type: application/x-www-form-urlencoded
 
 ### Delete amenity from barber
-DELETE http://localhost:8080/barber/deleteAmenity?amenityId=4&barberId=23
+DELETE http://localhost:8080/barber/deleteAmenity?amenityId=3&barberId=25
 
-#Sub info
+
 ### Get avg mark for current barber
 GET http://localhost:8080/barber/average-rating?barberId=1
 
 ### Get all orders made by the barber
 GET http://localhost:8080/barber/barber-orders?barberId=1
 
-### Need postman. Load img for barber.
-POST http://localhost:8080/barber/loadPhoto
-
 ### Delete photo.
-DELETE http://localhost:8080/barber/deletePhoto?photoName=1_Capture001.png&barberId=1
+DELETE http://localhost:8080/barber/deletePhoto?photoName=3_file.png&barberId=1
+
+### Load barbers photo
+POST http://localhost:8080/barber/loadPhoto?barberId=25
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="photo"; filename="barber.jpg"
+
+< F:\barber.jpg
+--WebAppBoundary--
+
+###
 
 
 
