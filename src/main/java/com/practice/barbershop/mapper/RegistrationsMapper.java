@@ -18,14 +18,16 @@ public class RegistrationsMapper {
         RegistrationsDto registrations = new RegistrationsDto();
 
         registrations.setId(entity.getId());
-        registrations.setRegistrationTime(entity.getRegistrationTime());
+        registrations.setCreateTime(entity.getCreateTime());
+        registrations.setLastUpdateTime(entity.getLastUpdateTime());
         registrations.setDay(entity.getDay());
         registrations.setTime(entity.getTime());
         registrations.setCanceled(entity.getCanceled());
         registrations.setPhone(entity.getPhone());
         registrations.setClientName(entity.getClientName());
-        registrations.setClient_id(entity.getClient().getId());
-        registrations.setBarber_id(entity.getBarber().getId());
+
+        registrations.setClient(ClientMapper.toDto(entity.getClient()));
+        registrations.setBarber(BarberMapper.toDto(entity.getBarber()));
 
         return registrations;
     }
@@ -38,7 +40,8 @@ public class RegistrationsMapper {
         Registration registration = new Registration();
 
         registration.setId(dto.getId());
-        registration.setRegistrationTime(dto.getRegistrationTime());
+        registration.setCreateTime(dto.getCreateTime());
+        registration.setLastUpdateTime(dto.getLastUpdateTime());
         registration.setDay(dto.getDay());
         registration.setTime(dto.getTime());
         registration.setCanceled(dto.getCanceled());
@@ -46,11 +49,11 @@ public class RegistrationsMapper {
         registration.setPhone(dto.getPhone());
 
         Client client = new Client();
-        client.setId(dto.getClient_id());
+        client.setId(dto.getClient().getId());
         registration.setClient(client);
 
         Barber barber = new Barber();
-        barber.setId(dto.getBarber_id());
+        barber.setId(dto.getBarber().getId());
         registration.setBarber(barber);
 
         return registration;

@@ -3,7 +3,7 @@ package com.practice.barbershop.controller;
 import com.practice.barbershop.dto.OrderDto;
 import com.practice.barbershop.dto.RegistrationsDto;
 import com.practice.barbershop.service.OrderService;
-import com.practice.barbershop.service.RegistrationService;
+import com.practice.barbershop.service.impl.RegistrationServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/order")
 public class OrderController {
     private final OrderService orderService;
-    private final RegistrationService registrationService;
+    private final RegistrationServiceImpl registrationServiceImpl;
 
     /**
      * RequestMethod=POST. Accepts the registration ID.
@@ -32,7 +32,7 @@ public class OrderController {
     public ResponseEntity<?> createOrderForRegistration(@RequestParam(name = "regId") Long regId) {
 
         try {
-            RegistrationsDto registration = registrationService.getDtoById(regId);
+            RegistrationsDto registration = registrationServiceImpl.getDtoById(regId);
             if (!registration.getCanceled()) {
                 OrderDto savedOrder = orderService.save(orderService.createOrderByReg(registration));
                 return ResponseEntity.status(HttpStatus.CREATED).body(savedOrder);

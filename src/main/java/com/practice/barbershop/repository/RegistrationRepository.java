@@ -31,5 +31,7 @@ public interface RegistrationRepository extends JpaRepository<Registration, Long
      */
     List<Registration> getRegistrationsByTimeAndDayAndBarber(LocalTime time, LocalDate day, Barber barber);
 
+    Optional<Registration> getRegistrationsByTimeAndDayAndBarberAndCanceled(LocalTime time, LocalDate day, Barber barber, boolean canceled);
+
 
 }

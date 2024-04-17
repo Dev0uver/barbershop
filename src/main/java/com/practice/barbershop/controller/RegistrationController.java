@@ -27,14 +27,13 @@ public class RegistrationController {
      * @param registrationsDto The registration dto
      * @return ResponseEntity
      */
-    @RequestMapping(value = "/registration", method = RequestMethod.POST, produces = "application/json")
+    @RequestMapping(value = "/create", method = RequestMethod.POST, produces = "application/json")
     @ResponseBody
     public ResponseEntity<?> register(
               @RequestBody RegistrationsDto registrationsDto) {
         try {
-            registrationsDto = registrationService
-                    .save(registrationService.setClient(registrationsDto));
-            return ResponseEntity.status(HttpStatus.OK).body(registrationsDto);
+            RegistrationsDto registrations = registrationService.save(registrationsDto);
+            return ResponseEntity.status(HttpStatus.OK).body(registrations);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
@@ -43,7 +42,7 @@ public class RegistrationController {
     }
 
     /**
-     * RequestMethod=POST. Accepts the time, day, barberId of the registration as a parameters.
+     * RequestMethod=PUT. Accepts the time, day, barberId of the registration as a parameters.
      * Checks whether this registration on these parameters already exists in the database.
      * Cancel the registration.
      * @param time The time of registration
@@ -51,7 +50,7 @@ public class RegistrationController {
      * @param barberId The barber's ID
      * @return ResponseEntity
      */
-    @RequestMapping(value = "/cancel", method = RequestMethod.PUT)
+    @RequestMapping(value = "/delete", method = RequestMethod.PUT)
     @ResponseBody
     public ResponseEntity<?>  cancel(
             @RequestParam(name = "time") LocalTime time,
@@ -64,6 +63,29 @@ public class RegistrationController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
 
+    }
+
+    /**
+     * RequestMethod=POST. Accepts the time, day, barberId of the registration as a parameters.
+     * Checks whether this registration on these parameters exists in the database.
+     * If not Cancel return the registration.
+     * @param time The time of registration
+     * @param day The date of registration
+     * @param barberId The barber's ID
+     * @return ResponseEntity
+     */
+    @RequestMapping(value = "/read", method = RequestMethod.PUT)
+    @ResponseBody
+    public ResponseEntity<?>  readRegistration(
+            @RequestParam(name = "time") LocalTime time,
+            @RequestParam(name = "day") LocalDate day,
+            @RequestParam(name = "barberId") Long barberId) {
+        try {
+            RegistrationsDto registration = registrationService.getByTimeAndDayAndBarberId(time,day,barberId);
+            return ResponseEntity.status(HttpStatus.OK).body(registration);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
 }

@@ -16,7 +16,7 @@ public class ClientMapper {
     public static ClientDto toDto(Client entity) {
         ClientDto client = new ClientDto();
 
-        client.setId(client.getId());
+        client.setId(entity.getId());
         client.setName(entity.getName());
         client.setPhone(entity.getPhone());
         client.setLogin(entity.getLogin());

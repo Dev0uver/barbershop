@@ -17,8 +17,9 @@ public class RegistrationsDto {
     private LocalDate day;
     private String clientName;
     private String phone;
-    private LocalDateTime registrationTime;
+    private LocalDateTime createTime;
+    private LocalDateTime lastUpdateTime;
     private Boolean canceled;
-    private Long client_id;
-    private Long barber_id;
+    private ClientDto client;
+    private BarberDto barber;
 }

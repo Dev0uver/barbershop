@@ -21,12 +21,19 @@ public class Registration {
     //If user is unanimous get from form on site or get from Client table
     private String clientName;
     private String phone;
+
     @ManyToOne
     @JoinColumn(name = "client_id")
     private Client client;
+
     @ManyToOne
     @JoinColumn(name = "barber_id")
     private Barber barber;
-    private LocalDateTime registrationTime;
+
+    @Column(name = "create_time")
+    private LocalDateTime createTime;
+    @Column(name = "last_update_time")
+    private LocalDateTime lastUpdateTime;
+
     private Boolean canceled;
 }

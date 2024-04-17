@@ -98,8 +98,8 @@ public class OrderService implements MyService<OrderDto, Order> {
         orderDto.setClientName(registration.getClientName());
         orderDto.setPhone(registration.getPhone());
         orderDto.setPrice(0);
-        orderDto.setClient_id(registration.getClient_id());
-        orderDto.setBarber_id(registration.getBarber_id());
+        orderDto.setClient_id(registration.getClient().getId());
+        orderDto.setBarber_id(registration.getBarber().getId());
 
         return orderDto;
     }

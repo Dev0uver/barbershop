@@ -1,0 +1,21 @@
+databaseChangeLog:
+  - changeSet:
+      id: alter-column-registrations-table
+      author: David
+      changes:
+        - renameColumn:
+            tableName: registrations
+            oldColumnName: registration_time
+            newColumnName: create_time
+        - addColumn:
+            tableName: registrations
+            columns:
+              - column:
+                  name: last_update_time
+                  type: Timestamp
+                  constraints:
+                    nullable: false
+        - addNotNullConstraint:
+            tableName: registrations
+            columnName: create_time
+
