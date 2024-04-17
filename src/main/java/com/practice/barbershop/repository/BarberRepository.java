@@ -18,8 +18,7 @@ public interface BarberRepository extends JpaRepository<Barber, Long> {
      * @return Barber entity
      */
     Optional<Barber> getBarberById(Long id);
-
-    //TODO Разобраться почему FETCH не работает
+    
     @Query("SELECT b FROM Barber b LEFT JOIN FETCH b.orderList WHERE b.id = :id")
     Optional<Barber> getBarberByIdAllCollections(Long id);
 

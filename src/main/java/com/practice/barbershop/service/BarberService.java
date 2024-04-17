@@ -7,6 +7,7 @@ import com.practice.barbershop.general.MyService;
 import com.practice.barbershop.mapper.AmenitiesMapper;
 import com.practice.barbershop.mapper.BarberMapper;
 import com.practice.barbershop.mapper.PhotoMapper;
+import com.practice.barbershop.model.Amenities;
 import com.practice.barbershop.model.Barber;
 import com.practice.barbershop.model.Photo;
 import com.practice.barbershop.repository.BarberRepository;
@@ -157,19 +158,19 @@ public class BarberService implements MyService<BarberDto, Barber> {
      */
     @Transactional
     public void addAmenityToBarber(Long barberId, Long amenityId) {
-        BarberDto barber = getDtoById(barberId);
+        Barber barber = getEntityById(barberId);
         AmenitiesDto amenities = amenitiesService.getDtoById(amenityId);
 
         boolean contains = false;
-        for (AmenitiesDto amenity : barber.getAmenitiesDtoList()) {
+        for (Amenities amenity : barber.getAmenitiesList()) {
             if (Objects.equals(amenity.getId(), amenities.getId())) {
                 contains = true;
                 break;
             }
         }
         if (!contains) {
-            barber.getAmenitiesDtoList().add(amenities);
-            update(barber);
+            barber.getAmenitiesList().add(AmenitiesMapper.toEntity(amenities));
+            barberRepository.save(barber);
         } else {
             throw new RuntimeException("Amenity have already been added for this barber.");
         }

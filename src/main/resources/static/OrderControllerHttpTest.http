@@ -5,4 +5,4 @@ POST http://localhost:8080/order/create/reg?regId=2
 PUT http://localhost:8080/order/mark?mark=5&orderId=1
 
 ### Set amenity to order
-POST http://localhost:8080/order/add-amenity?orderId=1&amenityId=1
+POST http://localhost:8080/order/add-amenity?orderId=6&amenityId=1

@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /** Responds to requests for amenity
  * @author David
  */
@@ -32,6 +34,45 @@ public class AmenitiesController {
             return ResponseEntity.status(HttpStatus.CREATED).body(amenitiesDto);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
+    @GetMapping( "/getById/{id}")
+    public ResponseEntity<?> getAmenityById(@PathVariable Long id) {
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(amenitiesService.getDtoById(id));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/getAll")
+    public ResponseEntity<?> getAll() {
+        List<AmenitiesDto> amenitiesDtoList = amenitiesService.getAllDto();
+        if (amenitiesDtoList.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("There is not a single amenity!");
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(amenitiesDtoList);
+    }
+
+    @PutMapping("/updateAmenity/{id}")
+    public ResponseEntity<?> updateAmenity(@RequestBody AmenitiesDto amenity, @PathVariable Long id) {
+        try {
+            amenity.setId(id);
+            return ResponseEntity.status(HttpStatus.OK).body(amenitiesService.update(amenity));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
+
+
+    @DeleteMapping("/deleteAmenity/{id}")
+    public ResponseEntity<?> deleteAmenity(@PathVariable Long id) {
+        try {
+            amenitiesService.deleteAmenity(id);
+            return ResponseEntity.status(HttpStatus.OK).body("Amenity deleted");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
 

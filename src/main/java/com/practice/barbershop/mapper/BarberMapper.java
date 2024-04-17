@@ -43,7 +43,6 @@ public class BarberMapper {
         } else {
             barber.setPhotoDtoList(new ArrayList<>());
         }
-
         return barber;
     }
     /**
@@ -78,7 +77,6 @@ public class BarberMapper {
         } else {
             barber.setPhotoList(new ArrayList<>());
         }
-
         return barber;
     }
 }

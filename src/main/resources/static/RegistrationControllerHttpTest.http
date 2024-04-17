@@ -5,7 +5,7 @@ POST http://localhost:8080/reg/create
 Content-Type: application/json
 
 {
-  "time": "10:00",
+  "time": "10:01",
   "day": "2024-01-01",
   "client": {"id": 1},
   "barber": {"id": 1}

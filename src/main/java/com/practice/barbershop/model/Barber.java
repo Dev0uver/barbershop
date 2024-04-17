@@ -30,7 +30,7 @@ public class Barber {
     private List<Order> orderList;
     @OneToMany(mappedBy = "barber")
     private List<Registration> registrationList;
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany()
     @JoinTable(
             name = "barber_amenities",
             joinColumns = @JoinColumn(name = "barber_id"),
