@@ -56,6 +56,7 @@ public class ClientService implements MyService<ClientDto, Client> {
     }
 
     @Override
+    @Transactional
     public ClientDto update(ClientDto dto) {
         return ClientMapper.toDto(clientRepository.save(ClientMapper.toEntity(dto)));
     }

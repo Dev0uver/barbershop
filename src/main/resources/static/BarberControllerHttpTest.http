@@ -3,17 +3,84 @@ POST http://localhost:8080/barber/create
 Content-Type: application/json
 
 {
-  "phone": "barberPhone1",
-  "email": "barberEmail1",
-  "barberStatus": "WORK"
+  "firstName": "firstName",
+  "lastName": "lastName",
+  "patronymic": "patronymic",
+  "phone": "phone",
+  "email": "email",
+  "barberStatus": "WORK",
+  "barberDegree": "SENIOR_BARBER"
+
 }
 
+### Update barber
+PUT http://localhost:8080/barber/update-barber
+Content-Type: application/json
+
+{
+  "id": 32,
+  "firstName": "firstName",
+  "lastName": "lastName",
+  "patronymic": "patronymic",
+  "phone": "phone",
+  "email": "email",
+  "barberStatus": "WORK",
+  "barberDegree": "BARBER",
+  "amenitiesDtoList": [
+    {
+      "id": 1
+    },
+    {
+      "id": 2
+    }
+  ]
+}
+
+### Get info about barber
+GET http://localhost:8080/barber/info?barberId=1
+
+### Change barber status
+PUT http://localhost:8080/barber/change-status?status=vacation&id=25
+Content-Type: application/x-www-form-urlencoded
+
+### Change barber degree
+PUT http://localhost:8080/barber/change-degree?id=32&degree=top_barber
+Content-Type: application/x-www-form-urlencoded
+
+### Add amenity to cur barber
+POST http://localhost:8080/barber/addAmenity?barberId=25&amenityId=3
 ### Add amenity to barber
 POST http://localhost:8080/barber/addAmenity?amenityId=12&barberId=1
 
 ### Change barber status via id and status
 PUT http://localhost:8080/barber/change?status=vacation&id=1
+
 Content-Type: application/x-www-form-urlencoded
 
-### Get avg rating for current barber
+### Delete amenity from barber
+DELETE http://localhost:8080/barber/deleteAmenity?amenityId=3&barberId=25
+
+
+### Get avg mark for current barber
 GET http://localhost:8080/barber/average-rating?barberId=1
+
+### Get all orders made by the barber
+GET http://localhost:8080/barber/barber-orders?barberId=1
+
+### Delete photo.
+DELETE http://localhost:8080/barber/deletePhoto?photoName=3_file.png&barberId=1
+
+### Load barbers photo
+POST http://localhost:8080/barber/loadPhoto?barberId=25
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="photo"; filename="barber.jpg"
+
+< F:\barber.jpg
+--WebAppBoundary--
+
+###
+
+
+

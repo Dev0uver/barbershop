@@ -4,6 +4,7 @@ import com.practice.barbershop.dto.BarberDto;
 import com.practice.barbershop.dto.OrderDto;
 import com.practice.barbershop.dto.RegistrationsDto;
 import com.practice.barbershop.general.MyService;
+import com.practice.barbershop.mapper.AmenitiesMapper;
 import com.practice.barbershop.mapper.OrderMapper;
 import com.practice.barbershop.model.Amenities;
 import com.practice.barbershop.model.Order;
@@ -53,11 +54,6 @@ public class OrderService implements MyService<OrderDto, Order> {
         return OrderMapper.toDto(orderRepository.save(OrderMapper.toEntity(dto)));
     }
 
-    @Transactional
-    public void updateEntity(Order order) {
-        orderRepository.save(order);
-    }
-
     @Override
     public List<OrderDto> getAllDto() {
         List<Order> barbers = orderRepository.findAll();
@@ -83,12 +79,12 @@ public class OrderService implements MyService<OrderDto, Order> {
             List<Order> orders = amenity.getOrderList();
             orders.add(order);
             amenity.setOrderList(orders);
-            amenitiesService.updateEntity(amenity);
+            amenitiesService.update(AmenitiesMapper.toDto(amenity));
 
             amenities.add(amenity);
             order.setAmenitiesList(amenities);
 
-            updateEntity(order);
+            update(OrderMapper.toDto(order));
         } else {
             throw new RuntimeException("Order with id=" + orderId + " already contains amenity with id=" + amenityId);
         }
@@ -112,7 +108,7 @@ public class OrderService implements MyService<OrderDto, Order> {
         double avgRate = 0D;
         int count = 0;
 
-        List<Order> orders = orderRepository.getByBarbers(barber.getId());
+        List<Order> orders = orderRepository.getByBarber(barber.getId());
 
         for (Order o: orders) {
             if (o.getMark() != null) {
@@ -122,5 +118,11 @@ public class OrderService implements MyService<OrderDto, Order> {
         }
 
         return count > 0 ? avgRate / count : avgRate;
+    }
+
+    public List<OrderDto> getOrdersByBarberId(Long barberId) {
+        return orderRepository.getByBarber(barberId).stream()
+                .map(OrderMapper::toDto)
+                .collect(Collectors.toList());
     }
 }

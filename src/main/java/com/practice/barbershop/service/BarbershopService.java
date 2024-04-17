@@ -1,4 +1,4 @@
-package com.practice.barbershop.service.pattern;
+package com.practice.barbershop.service;
 
 import com.practice.barbershop.dto.BarbershopDto;
 import com.practice.barbershop.model.Barbershop;

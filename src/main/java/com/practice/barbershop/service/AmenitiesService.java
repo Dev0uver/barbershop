@@ -84,11 +84,6 @@ public class AmenitiesService implements MyService<AmenitiesDto, Amenities> {
                 .collect(Collectors.toList());
     }
 
-    @Transactional
-    public void updateEntity(Amenities amenities) {
-        amenitiesRepository.save(amenities);
-    }
-
     public Double getAvgPrice() {
         List<Amenities> amenities = amenitiesRepository.findAll();
         Double sumPrice = 0D;

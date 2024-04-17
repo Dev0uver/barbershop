@@ -1,5 +1,6 @@
 package com.practice.barbershop.model;
 
+import com.practice.barbershop.general.BarberDegree;
 import com.practice.barbershop.general.BarberStatus;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -16,9 +17,14 @@ public class Barber {
             strategy = GenerationType.IDENTITY
     )
     private Long id;
+    private String firstName;
+    private String lastName;
+    private String patronymic; //Отчество
     private String phone;
     private String email;
+    private BarberDegree barberDegree;
     private BarberStatus barberStatus;
+
 
     @OneToMany(mappedBy = "barber")
     private List<Order> orderList;
@@ -31,4 +37,6 @@ public class Barber {
             inverseJoinColumns = @JoinColumn(name = "amenities_id")
     )
     private List<Amenities> amenitiesList;
+    @OneToMany(mappedBy = "barber")
+    private List<Photo> photoList;
 }
