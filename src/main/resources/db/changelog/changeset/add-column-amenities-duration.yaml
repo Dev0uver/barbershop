@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - changeSet:
+      id: add-column-amenities-duration
+      author: Devouver
+      changes:
+        - addColumn:
+            tableName: amenities
+            columns:
+              - column:
+                  name: duration
+                  type: interval
+                  constraints:
+                    nullable: false

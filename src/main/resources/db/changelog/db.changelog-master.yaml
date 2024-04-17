@@ -31,3 +31,8 @@ databaseChangeLog:
       file: db/changelog/changeset/create-table-barbers_photo.yaml
   - include:
       file: db/changelog/changeset/alter-barber-table.yaml
+      file: db/changelog/changeset/add-column-amenities-duration.yaml
+  - include:
+      file: db/changelog/changeset/alter-table-amenities-change-duration-type.yaml
+  - include:
+      file: db/changelog/changeset/add-column-amenities-description.yaml

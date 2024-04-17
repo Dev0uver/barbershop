@@ -49,6 +49,12 @@ Content-Type: application/x-www-form-urlencoded
 
 ### Add amenity to cur barber
 POST http://localhost:8080/barber/addAmenity?barberId=25&amenityId=3
+### Add amenity to barber
+POST http://localhost:8080/barber/addAmenity?amenityId=12&barberId=1
+
+### Change barber status via id and status
+PUT http://localhost:8080/barber/change?status=vacation&id=1
+
 Content-Type: application/x-www-form-urlencoded
 
 ### Delete amenity from barber

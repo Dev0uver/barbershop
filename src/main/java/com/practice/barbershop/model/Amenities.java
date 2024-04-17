@@ -2,7 +2,7 @@ package com.practice.barbershop.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
-
+import java.time.LocalTime;
 import java.util.List;
 /** ORM-model of Amenity
  * @author David
@@ -11,14 +11,15 @@ import java.util.List;
 @Entity
 public class Amenities {
     @Id
-    @GeneratedValue(
-            strategy = GenerationType.IDENTITY
-    )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Integer price;
     private String name;
+    private String description;
+    private Integer price;
+    private LocalTime duration;
+
     @ManyToMany(mappedBy = "amenitiesList")
     private List<Order> orderList;
-    @ManyToMany(mappedBy = "amenitiesList", fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "amenitiesList")
     private List<Barber> barberList;
 }
