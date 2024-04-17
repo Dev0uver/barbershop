@@ -1,0 +1,31 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-table-registration-amenity
+      author: David
+      changes:
+        - createTable:
+            tableName: registration_amenity
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: registration_id
+                  type: bigint
+                  constraints:
+                    nullable: true
+                    foreignKeyName: registration_fk_id
+                    referencedTableName: registrations
+                    referencedColumnNames: id
+              - column:
+                  name: amenities_id
+                  type: bigint
+                  constraints:
+                    nullable: true
+                    foreignKeyName: amenities_fk_id
+                    referencedTableName: amenities
+                    referencedColumnNames: id

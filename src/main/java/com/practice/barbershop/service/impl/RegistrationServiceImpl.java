@@ -1,23 +1,18 @@
 package com.practice.barbershop.service.impl;
 
-import com.practice.barbershop.dto.BarberDto;
-import com.practice.barbershop.dto.ClientDto;
-import com.practice.barbershop.dto.RegistrationsDto;
+import com.practice.barbershop.dto.*;
+import com.practice.barbershop.general.MyDayOfWeek;
 import com.practice.barbershop.mapper.RegistrationsMapper;
 import com.practice.barbershop.model.Client;
 import com.practice.barbershop.model.Registration;
 import com.practice.barbershop.repository.RegistrationRepository;
-import com.practice.barbershop.service.BarberService;
-import com.practice.barbershop.service.ClientService;
-import com.practice.barbershop.service.RegistrationService;
+import com.practice.barbershop.service.*;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.List;
+import java.time.*;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -29,6 +24,8 @@ public class RegistrationServiceImpl implements RegistrationService {
     private final RegistrationRepository registrationRepository;
     private final ClientService clientService;
     private final BarberService barberService;
+    private final ScheduleService scheduleService;
+    private final AmenitiesService amenitiesService;
     /**
      * Return Registration entity by his id
      * @param id entity id
@@ -60,21 +57,39 @@ public class RegistrationServiceImpl implements RegistrationService {
     @Transactional
     public RegistrationsDto save(RegistrationsDto dto) {
         dto.setId(null);
-
         dto = setClient(dto);
 
+        if (dto.getAmenitiesDto() == null) {
+            throw new RuntimeException("Please select amenities.");
+        }
+
+        dto.setAmenitiesDto(dto.getAmenitiesDto().stream()
+                .map((amenitiesDto -> amenitiesService.getDtoById(amenitiesDto.getId())))
+                .collect(Collectors.toList()));
+
+        BarberDto barberDto = barberService.getDtoById(dto.getBarber().getId());
+
+        dto.setEnd(dto.getTime());
+        for (AmenitiesDto amenity: dto.getAmenitiesDto()) {
+            boolean canUse = false;
+            for (AmenitiesDto barberAmenity: barberDto.getAmenitiesDtoList()) {
+                if (Objects.equals(amenity.getId(), barberAmenity.getId())) {
+                    canUse = true;
+
+                    dto.setEnd(dto.getEnd().plusHours(amenity.getDuration().getHour()));
+                    dto.setEnd(dto.getEnd().plusMinutes(amenity.getDuration().getMinute()));
+
+                    break;
+                }
+            }
+            if (!canUse) {
+                throw new RuntimeException("This barber can't make amenity with id=" + amenity.getId());
+            }
+        }
 
         Registration entity = RegistrationsMapper.toEntity(dto);
 
-        List<Registration> registrationList = registrationRepository.
-                getRegistrationsByTimeAndDayAndBarber(entity.getTime(),entity.getDay(), entity.getBarber());
-
-        for (Registration registration: registrationList) {
-            if (!registration.getCanceled()) {
-                throw new RuntimeException("Registration on " + entity.getDay() +
-                        " " + entity.getTime() + " has already been created.");
-            }
-        }
+        validationRegistrationCollision(entity);
 
         entity.setCreateTime(LocalDateTime.now());
         entity.setLastUpdateTime(LocalDateTime.now());
@@ -84,7 +99,6 @@ public class RegistrationServiceImpl implements RegistrationService {
         RegistrationsDto registrationsDto = RegistrationsMapper.toDto(registration);
 
         //Check barber and client exists
-        BarberDto barberDto = barberService.getDtoById(registration.getBarber().getId());
         ClientDto clientDto = clientService.getDtoById(registration.getBarber().getId());
 
         registrationsDto.setBarber(barberDto);
@@ -151,12 +165,102 @@ public class RegistrationServiceImpl implements RegistrationService {
     }
 
     @Override
-    public RegistrationsDto getByTimeAndDayAndBarberId(LocalTime time, LocalDate day, Long barberId) {
+    public RegistrationsDto getByTimeAndDayAndBarberId(LocalTime time, LocalDate day, Long barberId, Long barbershopId) {
 
         Registration registrations = registrationRepository
-                .getRegistrationsByTimeAndDayAndBarberAndCanceled(time, day, barberService.getEntityById(barberId), false)
+                .getRegistrationsByTimeAndDayAndBarberAndBarbershopIdAndCanceled(time, day, barberService.getEntityById(barberId), barbershopId, false)
                 .orElseThrow(() -> new RuntimeException("Registration on " + day + " " + time + " to barber with id=" + barberId + " not found or canceled."));
 
         return RegistrationsMapper.toDto(registrations);
+    }
+
+    private void validationRegistrationCollision(Registration registration) {
+
+        //Get day of week
+        Calendar c = Calendar.getInstance();
+        Date date = Date.from(registration.getDay().atStartOfDay(ZoneId.systemDefault()).toInstant());
+        c.setTime(date); // your date is an object of type Date
+
+        MyDayOfWeek dayOfWeek = MyDayOfWeek.valueOf(DayOfWeek.of(c.get(Calendar.DAY_OF_WEEK)).minus(1).name().toUpperCase()); // this will for example return 3 for tuesday
+        //Get schedule for this day
+        ScheduleDto schedule = scheduleService.getScheduleForCurrentDay(dayOfWeek, registration.getBarbershop().getId());
+
+        //Check barbershop closed or not
+        if (schedule.getWorkHours().equals("Closed")) {
+            throw new RuntimeException("Sorry we are closed in " + registration.getDay());
+        }
+
+        List<LocalTime> times = Arrays.stream(schedule.getWorkHours().split(" - ")).map(LocalTime::parse).toList();
+
+        //Check registration start time after barbershop open and registration end time before barbershop close
+
+
+        if (registration.getTime().isBefore(times.get(0))) {
+            throw new RuntimeException("The barbershop opens in " + times.get(0));
+        }
+
+        if (registration.getEnd().isBefore(registration.getTime())) {
+            throw new RuntimeException("Registration start must be before registration end");
+        }
+
+        if (registration.getEnd().isAfter(times.get(1))) {
+            throw new RuntimeException("The barbershop closed in " + times.get(1) + " your registration end in " + registration.getEnd());
+        }
+
+        //Get List of registrations for this time
+        //TODO переделать запрос, сразу вытаскивать активную регистрацию, если есть
+        List<Registration> registrationList = registrationRepository.
+                getRegistrationsByTimeAndDayAndBarberAndBarbershopId(
+                        registration.getTime(),registration.getDay(), registration.getBarber(), registration.getBarbershop().getId());
+
+        //Check no active registration or else throw
+        for (Registration reg: registrationList) {
+            if (!reg.getCanceled()) {
+                throw new RuntimeException("Registration on " + registration.getDay() +
+                        " " + registration.getTime() + " has already been created.");
+            }
+        }
+
+        //Get all active registrations for this day and barber
+        List<Registration> registrationsForCurDay = registrationRepository
+                .getRegistrationByDayAndBarberId(registration.getDay(), registration.getBarber().getId());
+
+
+        if (registrationsForCurDay != null) {
+            List<RegistrationsDto> registrationsDtoList = registrationsForCurDay
+                    .stream().map(RegistrationsMapper::toDto).toList();
+
+            boolean collision = false;
+            for (RegistrationsDto registrationsDto: registrationsDtoList) {
+                // Схема проверок коллизий для лучшего понимания
+                // | - Начало и конец уже существующей записи
+                // () - Начало и конец потенциальной записи
+                // _|____|___(____)_____ (OK) Good
+                // ___(___)____|___|__ (OK) Good
+
+                 // ____|___(____)___|__  !Collision
+                 if (registration.getTime().isAfter(registrationsDto.getTime()) && registration.getEnd().isBefore(registrationsDto.getEnd())) {
+                     collision = true;
+                 }
+                // _____(___|____)___|__  !Collision
+                if (registration.getTime().isBefore(registrationsDto.getTime()) && registration.getEnd().isAfter(registrationsDto.getTime())) {
+                    collision = true;
+                }
+                // _____|___(____|___)__  !Collision
+                if (registration.getTime().isBefore(registrationsDto.getEnd()) && registration.getEnd().isAfter(registrationsDto.getEnd())) {
+                    collision = true;
+                }
+                // _____(___|____|___)__  !Collision
+                if (registration.getTime().isBefore(registrationsDto.getTime()) && registration.getEnd().isAfter(registrationsDto.getEnd())) {
+                    collision = true;
+                }
+
+                if (collision) {
+                    throw new RuntimeException("Collision with registration on " + registrationsDto.getDay() + " to barber with id=" + registrationsDto.getBarber().getId()
+                            + " this registration start in " + registrationsDto.getTime() + " and end in " + registrationsDto.getEnd()
+                            + ".\nYour registration start in " + registration.getTime() + " and end in " + registration.getEnd());
+                }
+            }
+        }
     }
 }

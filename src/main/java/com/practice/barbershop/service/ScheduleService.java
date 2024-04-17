@@ -1,6 +1,7 @@
 package com.practice.barbershop.service;
 
 import com.practice.barbershop.dto.ScheduleDto;
+import com.practice.barbershop.general.MyDayOfWeek;
 import com.practice.barbershop.mapper.ScheduleMapper;
 import com.practice.barbershop.model.Schedule;
 import com.practice.barbershop.repository.ScheduleRepository;
@@ -29,4 +30,11 @@ public class ScheduleService {
         Schedule schedule = ScheduleMapper.toEntity(scheduleDto);
         scheduleRepository.delete(schedule);
     }
+
+    public ScheduleDto getScheduleForCurrentDay(MyDayOfWeek dayOfWeek, Long id) {
+        return ScheduleMapper.toDto(scheduleRepository
+                .findByDayOfWeekAndBarbershopId(dayOfWeek, id)
+                .orElseThrow(() -> new RuntimeException("Schedule not found")));
+    }
+
 }

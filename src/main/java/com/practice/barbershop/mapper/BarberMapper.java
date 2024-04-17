@@ -36,7 +36,7 @@ public class BarberMapper {
             barber.setAmenitiesDtoList(new ArrayList<>());
         }
 
-        if (entity.getAmenitiesList() != null) {
+        if (entity.getPhotoList() != null) {
             barber.setPhotoDtoList(entity.getPhotoList()
                     .stream().map(PhotoMapper::toDto)
                     .collect(Collectors.toList()));

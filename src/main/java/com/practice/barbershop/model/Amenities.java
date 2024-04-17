@@ -22,4 +22,6 @@ public class Amenities {
     private List<Order> orderList;
     @ManyToMany(mappedBy = "amenitiesList")
     private List<Barber> barberList;
+    @ManyToMany(mappedBy = "amenitiesList")
+    private List<Registration> registrationList;
 }

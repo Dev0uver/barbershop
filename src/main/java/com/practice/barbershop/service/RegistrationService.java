@@ -13,5 +13,5 @@ public interface RegistrationService extends MyService<RegistrationsDto, Registr
 
     RegistrationsDto setClient(RegistrationsDto registrationsDto);
 
-    RegistrationsDto getByTimeAndDayAndBarberId(LocalTime time, LocalDate day, Long barberId);
+    RegistrationsDto getByTimeAndDayAndBarberId(LocalTime time, LocalDate day, Long barberId, Long barbershopId);
 }

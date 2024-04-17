@@ -48,7 +48,7 @@ PUT http://localhost:8080/barber/change-degree?id=32&degree=top_barber
 Content-Type: application/x-www-form-urlencoded
 
 ### Add amenity to cur barber
-POST http://localhost:8080/barber/addAmenity?barberId=25&amenityId=3
+POST http://localhost:8080/barber/addAmenity?barberId=1&amenityId=5
 ### Add amenity to barber
 POST http://localhost:8080/barber/addAmenity?amenityId=12&barberId=1
 

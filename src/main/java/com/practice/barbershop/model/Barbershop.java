@@ -25,4 +25,8 @@ public class Barbershop {
     fetch = FetchType.EAGER)
     private List<Schedule> schedule;
 
+    @OneToMany(mappedBy = "barbershop",
+            fetch = FetchType.EAGER)
+    private List<Registration> registrations;
+
 }

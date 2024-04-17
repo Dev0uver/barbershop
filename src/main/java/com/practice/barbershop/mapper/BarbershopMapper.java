@@ -27,6 +27,7 @@ public class BarbershopMapper {
         barbershop.setSchedule(dto.getSchedule().stream()
                 .map(ScheduleMapper::toEntity)
                 .collect(Collectors.toList()));
+
         return barbershop;
     }
     /**

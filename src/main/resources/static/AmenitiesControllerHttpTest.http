@@ -3,14 +3,14 @@ POST http://localhost:8080/amenity/add
 Content-Type: application/json
 
 {
-  "name": "Cut hair-",
+  "name": "Cut hair3",
   "description": "No description",
-  "price": 100,
+  "price": 220,
   "duration": "00:30:00"
 }
 
 ### Return amenity by id
-GET http://localhost:8080/amenity/getById/12
+GET http://localhost:8080/amenity/getById/5
 
 ### Return all exist amenities
 GET http://localhost:8080/amenity/getAll

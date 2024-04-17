@@ -2,8 +2,12 @@ package com.practice.barbershop.mapper;
 
 import com.practice.barbershop.dto.RegistrationsDto;
 import com.practice.barbershop.model.Barber;
+import com.practice.barbershop.model.Barbershop;
 import com.practice.barbershop.model.Client;
 import com.practice.barbershop.model.Registration;
+
+import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 /** Convert RegistrationsDto to Registration and Registration to RegistrationsDto
  * @author David
@@ -25,9 +29,20 @@ public class RegistrationsMapper {
         registrations.setCanceled(entity.getCanceled());
         registrations.setPhone(entity.getPhone());
         registrations.setClientName(entity.getClientName());
+        registrations.setBarbershopId(entity.getBarbershop().getId());
+        registrations.setEnd(entity.getEnd());
 
         registrations.setClient(ClientMapper.toDto(entity.getClient()));
         registrations.setBarber(BarberMapper.toDto(entity.getBarber()));
+
+        if (entity.getAmenitiesList() != null) {
+            registrations.setAmenitiesDto(entity.getAmenitiesList()
+                    .stream()
+                    .map(AmenitiesMapper::toDto)
+                    .collect(Collectors.toList()));
+        } else {
+            registrations.setAmenitiesDto(new ArrayList<>());
+        }
 
         return registrations;
     }
@@ -47,6 +62,7 @@ public class RegistrationsMapper {
         registration.setCanceled(dto.getCanceled());
         registration.setClientName(dto.getClientName());
         registration.setPhone(dto.getPhone());
+        registration.setEnd(dto.getEnd());
 
         Client client = new Client();
         client.setId(dto.getClient().getId());
@@ -55,6 +71,18 @@ public class RegistrationsMapper {
         Barber barber = new Barber();
         barber.setId(dto.getBarber().getId());
         registration.setBarber(barber);
+
+        Barbershop barbershop = new Barbershop();
+        barbershop.setId(dto.getBarbershopId());
+        registration.setBarbershop(barbershop);
+
+        if (dto.getAmenitiesDto() != null) {
+            registration.setAmenitiesList(dto.getAmenitiesDto()
+                    .stream().map(AmenitiesMapper::toEntity)
+                    .collect(Collectors.toList()));
+        } else {
+            registration.setAmenitiesList(new ArrayList<>());
+        }
 
         return registration;
     }

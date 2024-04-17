@@ -5,6 +5,7 @@ import lombok.Data;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.List;
 
 /**
  * Registrations dto for Registrations entity
@@ -14,6 +15,7 @@ import java.time.LocalTime;
 public class RegistrationsDto {
     private Long id;
     private LocalTime time;
+    private LocalTime end;
     private LocalDate day;
     private String clientName;
     private String phone;
@@ -22,4 +24,6 @@ public class RegistrationsDto {
     private Boolean canceled;
     private ClientDto client;
     private BarberDto barber;
+    private Long barbershopId;
+    private List<AmenitiesDto> amenitiesDto;
 }

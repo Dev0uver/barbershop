@@ -79,9 +79,10 @@ public class RegistrationController {
     public ResponseEntity<?>  readRegistration(
             @RequestParam(name = "time") LocalTime time,
             @RequestParam(name = "day") LocalDate day,
-            @RequestParam(name = "barberId") Long barberId) {
+            @RequestParam(name = "barberId") Long barberId,
+            @RequestParam(name = "barbershopId") Long barbershopId) {
         try {
-            RegistrationsDto registration = registrationService.getByTimeAndDayAndBarberId(time,day,barberId);
+            RegistrationsDto registration = registrationService.getByTimeAndDayAndBarberId(time,day,barberId, barbershopId);
             return ResponseEntity.status(HttpStatus.OK).body(registration);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());

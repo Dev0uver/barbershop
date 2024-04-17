@@ -1,0 +1,21 @@
+databaseChangeLog:
+  - changeSet:
+      id: add-columns-registration-table
+      author: David
+      changes:
+        - addColumn:
+            tableName: registrations
+            columns:
+              - column:
+                  name: end
+                  type: time(6)
+        - addColumn:
+            tableName: registrations
+            columns:
+              - column:
+                  name: barbershop_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: barbershop_fk_id
+                    referencedTableName: barbershop
+                    referencedColumnNames: id

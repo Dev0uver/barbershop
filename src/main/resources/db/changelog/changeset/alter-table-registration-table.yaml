@@ -1,0 +1,9 @@
+databaseChangeLog:
+  - changeSet:
+      id: alter-table-registration-table
+      author: David
+      changes:
+        - renameColumn:
+            tableName: registrations
+            oldColumnName: end
+            newColumnName: end_work
