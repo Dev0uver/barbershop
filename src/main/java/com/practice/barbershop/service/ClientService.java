@@ -28,7 +28,7 @@ public class ClientService implements MyService<ClientDto, Client> {
      */
     @Override
     public ClientDto getDtoById(Long id) {
-        return ClientMapper.toDto(clientRepository.getClientById(id)
+        return ClientMapper.toDto(clientRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Client with id=" + id + " not found.")));
     }
 
